@@ -11,6 +11,7 @@ final Command checkXpCommand = Commands.begin()
         .label("checkxp") //Set's the label for the command
         .permission("command.checkxp") //Set's the base permission to use the command
         .usage("<player / self>") //Set's the usage for the command if there isn't enough arguments
+        .async() //Runs the executor asynchronously
         .execute((arguments) -> { //Executes the command
                 final Optional<Player> targetOptional = arguments.get(0)
                         .allowEmpty() //Allows the argument to be empty and will change the return signature to Optional<Type>

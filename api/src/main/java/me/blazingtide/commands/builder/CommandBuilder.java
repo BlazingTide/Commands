@@ -48,6 +48,13 @@ public interface CommandBuilder extends Cursor {
     CommandBuilder permission(String permission);
 
     /**
+     * Runs the executor provided in {@link #execute(Consumer)} asynchronously
+     *
+     * @return the command builder
+     */
+    CommandBuilder async();
+
+    /**
      * Creates the command object.
      *
      * @return command
