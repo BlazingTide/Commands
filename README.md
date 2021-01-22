@@ -13,7 +13,7 @@ final Command checkXpCommand = Commands.begin()
         .usage("<player / self>") //Set's the usage for the command if there isn't enough arguments
         .execute((arguments) -> { //Executes the command
                 final Optional<Player> targetOptional = arguments.get(0)
-                        .allowEmpty()
+                        .allowEmpty() //Allows the argument to be empty and will change the return signature to Optional<Type>
                         .permission("command.checkxp.other") //Checks if the argument is supplied that the player has permission to perform this command
                         .as(Player.class); //Checks whether an argument is supplied and checks if the argument is a Spigot Player
 
