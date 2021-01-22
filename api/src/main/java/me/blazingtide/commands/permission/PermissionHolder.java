@@ -21,9 +21,7 @@ public interface PermissionHolder {
      *
      * @return permission for argument
      */
-    default String getPermission() {
-        return null;
-    }
+    String getPermission();
 
     /**
      * Checks if the object has a permission linked to it.
