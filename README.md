@@ -18,7 +18,7 @@ Commands.newInstance()
         .register();
 ```
 
-### Example Usage
+## Example
 The library is simple to use but can be a bit difficult to understand at first.
 This is the most simplest example of a command that's used to check the experience of
 a player or yourself.
