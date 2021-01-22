@@ -1,5 +1,7 @@
 package me.blazingtide.commands;
 
+import me.blazingtide.commands.builder.CommandBuilder;
+
 public class Commands {
 
     /*
@@ -14,7 +16,7 @@ public class Commands {
                 Bukkit.broadcastMessage(argument);
                }).create();
 
-        CommandService.begin()
+        Command command = CommandService.begin()
             .label("checkHealth")
             .usage("<message>")
             .execute((arguments) -> {
@@ -32,6 +34,7 @@ public class Commands {
                }
            }).create();
 
+        command.clone().label("hp").create(); // Returns a builder object, allowing us to create a command that's the same but with a different label
 
         CommandException:
         -> CommandSenderException -> CommandSenderCastException
@@ -39,5 +42,9 @@ public class Commands {
         -> CommandArgumentException -> CommandPermissionException & CommandArgumentEmptyException & CommandArgumentCastException
 
      */
+
+    public static CommandBuilder begin() {
+        return null;
+    }
 
 }

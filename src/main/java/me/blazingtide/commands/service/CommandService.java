@@ -7,4 +7,7 @@ package me.blazingtide.commands.service;
  * TODO: Finish up
  */
 public interface CommandService {
+
+
+
 }
