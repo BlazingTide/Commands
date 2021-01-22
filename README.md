@@ -1,5 +1,22 @@
 # Commands
 
+### Modules
+##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api): The main api for the project
+
+##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot): The spigot module for the project
+
+##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord): The bungeecord module for the project
+
+### How to use
+If you're not using any of the prebuilt plugins then this is how you register the api for usage.
+This example is used by the [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) plugin.
+
+```java
+Commands.newInstance()
+        .agent(SpigotCommandAgent.of(this))
+        .repository(CommandRepository.basic())
+        .register();
+```
 
 ### Example Usage
 The library is simple to use but can be a bit difficult to understand at first.
