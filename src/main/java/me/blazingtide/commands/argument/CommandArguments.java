@@ -22,5 +22,4 @@ public interface CommandArguments {
     default <T> T sender(Class<T> clazz) {
         return getSender().getSender(clazz, getCommandString());
     }
-
 }

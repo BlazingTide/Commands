@@ -19,6 +19,8 @@ public interface ArgumentCursor extends Cursor {
 
     /**
      * Sets the permission for the argument.
+     * Checks that if the permission is supplied and the argument is not empty
+     * that the user has permission to request the argument.
      *
      * @param permission the permission
      * @return the cursor
