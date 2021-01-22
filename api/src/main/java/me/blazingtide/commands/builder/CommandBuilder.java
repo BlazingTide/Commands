@@ -32,7 +32,7 @@ public interface CommandBuilder extends Cursor {
 
     /**
      * Sets the executor for the command.
-     * The executor is a Consumer that consumers the type {@link me.blazingtide.commands.argument.CommandArguments}
+     * The executor is a Consumer that consumers the type {@link CommandArguments}
      *
      * @param executor the command executor
      * @return the command builder

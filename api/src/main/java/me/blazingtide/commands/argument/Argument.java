@@ -6,7 +6,7 @@ import me.blazingtide.commands.permission.PermissionHolder;
 /**
  * This class represents each argument supplied by the user when a command is ran.
  * <p>
- * The argument class extends {@link me.blazingtide.commands.permission.PermissionHolder} to store
+ * The argument class extends {@link PermissionHolder} to store
  * whether the argument requires a permission to be accessed.
  */
 public interface Argument extends PermissionHolder {

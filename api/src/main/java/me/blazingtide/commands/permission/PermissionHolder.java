@@ -1,10 +1,13 @@
 package me.blazingtide.commands.permission;
 
+import me.blazingtide.commands.argument.Argument;
+import me.blazingtide.commands.command.Command;
+
 /**
  * This interface represents an object that has a permission linked
  * to it.
  * <p>
- * Most notable usages are {@link me.blazingtide.commands.argument.Argument} and {@link me.blazingtide.commands.command.Command}.
+ * Most notable usages are {@link Argument} and {@link Command}.
  * </p>
  */
 public interface PermissionHolder {

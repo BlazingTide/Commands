@@ -1,7 +1,7 @@
 package me.blazingtide.commands.argument;
 
-import me.blazingtide.commands.argument.cursor.NullableArgumentCursor;
 import me.blazingtide.commands.cursor.Cursor;
+import me.blazingtide.commands.argument.cursor.NullableArgumentCursor;
 
 /**
  * The class is responsible for finding the argument
@@ -10,7 +10,7 @@ import me.blazingtide.commands.cursor.Cursor;
 public interface ArgumentCursor extends Cursor {
 
     /**
-     * Changes the cursor object to a {@link me.blazingtide.commands.argument.cursor.NullableArgumentCursor}
+     * Changes the cursor object to a {@link NullableArgumentCursor}
      * so the returned object is a optional instead of a object.
      *
      * @return a new nullable argument cursor
