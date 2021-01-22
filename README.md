@@ -7,7 +7,7 @@
 
 ##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord): The bungeecord module for the project
 
-### How to use
+## How to use
 If you're not using any of the prebuilt plugins then this is how you register the api for usage.
 This example is used by the [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) plugin.
 
