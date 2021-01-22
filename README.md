@@ -1,11 +1,11 @@
 # Commands
 
 ### Modules
-##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api): The main api for the project
+##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api) - The main api for the project
 
-##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot): The spigot module for the project
+##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) - The spigot module for the project
 
-##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord): The bungeecord module for the project
+##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord) - The bungeecord module for the project
 
 ## How to use
 If you're not using any of the prebuilt plugins then this is how you register the api for usage.
