@@ -47,5 +47,5 @@ final Command checkXpCommand = Commands.begin()
                 });
         }).create(); //Creates the command
 
-checkXpCommand.clone().label("xp").create(); //Clones the same command but under a different label
+checkXpCommand.cloneCommand().label("xp").create(); //Clones the same command but under a different label
 ```

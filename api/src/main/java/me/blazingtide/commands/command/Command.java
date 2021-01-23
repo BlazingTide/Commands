@@ -60,7 +60,7 @@ public interface Command extends PermissionHolder {
      *
      * @return the command builder
      */
-    default CommandBuilder clone() {
+    default CommandBuilder cloneCommand() {
         final CommandBuilder builder = new CommandBuilderImpl()
                 .label(this.getLabel().getValue())
                 .usage(this.getUsage())
