@@ -1,7 +1,7 @@
 package me.blazingtide.commands;
 
-import me.blazingtide.commands.builder.CommandBuilder;
-import me.blazingtide.commands.builder.CommandBuilderImpl;
+import me.blazingtide.commands.command.builder.CommandBuilder;
+import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.service.CommandService;
 import me.blazingtide.commands.service.CommandServiceBuilder;
 import me.blazingtide.commands.service.CommandServiceBuilderImpl;

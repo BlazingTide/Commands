@@ -1,4 +1,4 @@
-package me.blazingtide.commands.builder;
+package me.blazingtide.commands.command.builder;
 
 import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.agent.CommandInjectionAgent;
@@ -54,6 +54,11 @@ public class CommandBuilderImpl implements CommandBuilder {
 
     @Override
     public Command create() {
+        Objects.requireNonNull(label);
+        Objects.requireNonNull(usage);
+        Objects.requireNonNull(executor);
+        Objects.requireNonNull(permission);
+
         final Command command = new Command() { //Creates a new command instance
             @Override
             public Label getLabel() {
@@ -85,6 +90,7 @@ public class CommandBuilderImpl implements CommandBuilder {
 
         service.getRepository().getCollection().add(command); //Stores the command
 
+        //Injects the command
         if (service.getAgent() instanceof CommandInjectionAgent) {
             ((CommandInjectionAgent) service.getAgent()).inject(command);
         }

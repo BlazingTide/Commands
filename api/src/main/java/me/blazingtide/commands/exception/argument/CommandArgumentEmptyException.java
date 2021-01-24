@@ -1,9 +1,11 @@
 package me.blazingtide.commands.exception.argument;
 
-public class CommandArgumentEmptyException extends CommandArgumentException {
+import me.blazingtide.commands.exception.CommandException;
 
-    public CommandArgumentEmptyException(String commandString, String argument) {
-        super(commandString, argument);
+public class CommandArgumentEmptyException extends CommandException {
+
+    public CommandArgumentEmptyException(String commandString) {
+        super(commandString);
     }
 
 }

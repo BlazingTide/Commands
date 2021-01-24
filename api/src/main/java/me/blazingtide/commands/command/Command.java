@@ -1,8 +1,8 @@
 package me.blazingtide.commands.command;
 
 import me.blazingtide.commands.argument.CommandArguments;
-import me.blazingtide.commands.builder.CommandBuilderImpl;
-import me.blazingtide.commands.builder.CommandBuilder;
+import me.blazingtide.commands.command.builder.CommandBuilderImpl;
+import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.permission.PermissionHolder;
 

@@ -1,10 +1,17 @@
 package me.blazingtide.commands;
 
 import me.blazingtide.commands.agent.SpigotCommandAgent;
+import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.repository.CommandRepository;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Optional;
+
 public class CommandsPlugin extends JavaPlugin {
+
+    public static final String SPIGOT_FALLBACK_PREFIX = "commands";
 
     @Override
     public void onEnable() {
@@ -12,5 +19,34 @@ public class CommandsPlugin extends JavaPlugin {
                 .agent(SpigotCommandAgent.of(this))
                 .repository(CommandRepository.basic())
                 .register();
+
+        registerTest();
     }
+
+    private void registerTest() {
+        final Command checkXpCommand = Commands.begin()
+                .label("checkxp") //Set's the label for the command
+                .permission("command.checkxp") //Set's the base permission to use the command
+                .usage("<player / self>") //Set's the usage for the command if there isn't enough arguments
+                .async() //Runs the executor asynchronously
+                .execute((arguments) -> { //Executes the command
+                    final Optional<Player> targetOptional = arguments.get(0)
+                            .allowEmpty() //Allows the argument to be empty and will change the return signature to Optional<Type>
+                            .permission("command.checkxp.other") //Checks if the argument is supplied that the player has permission to perform this command
+                            .as(Player.class); //Checks whether an argument is supplied and checks if the argument is a Spigot Player
+
+                    targetOptional.ifPresentOrElse(target -> {
+                        final CommandSender sender = arguments.sender(CommandSender.class); //Automatically converts the sender object into a CommandSender
+
+                        sender.sendMessage(target.getName() + "'s XP: " + target.getExp());
+                    }, () -> {
+                        final Player sender = arguments.sender(Player.class); //Automatically converts the sender object into a Player and if the sender isn't a player then the command will stop
+
+                        sender.sendMessage("Your XP: " + sender.getExp());
+                    });
+                }).create(); //Creates the command
+
+        checkXpCommand.cloneCommand().label("xp").create(); //Clones the same command but under a different label
+    }
+
 }

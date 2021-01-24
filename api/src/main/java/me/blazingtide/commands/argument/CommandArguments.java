@@ -7,6 +7,25 @@ import me.blazingtide.commands.sender.Sender;
 
 public interface CommandArguments {
 
+    static CommandArguments of(String commandString, Argument[] arguments, Sender sender) {
+        return new CommandArguments() {
+            @Override
+            public String getCommandString() {
+                return commandString;
+            }
+
+            @Override
+            public Argument[] getArguments() {
+                return arguments;
+            }
+
+            @Override
+            public Sender getSender() {
+                return sender;
+            }
+        };
+    }
+
     String getCommandString();
 
     Argument[] getArguments();
@@ -22,4 +41,5 @@ public interface CommandArguments {
     default <T> T sender(Class<T> clazz) {
         return getSender().getSender(clazz, getCommandString());
     }
+
 }

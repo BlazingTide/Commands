@@ -1,4 +1,4 @@
-package me.blazingtide.commands.builder;
+package me.blazingtide.commands.command.builder;
 
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;

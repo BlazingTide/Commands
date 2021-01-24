@@ -1,7 +1,9 @@
 package me.blazingtide.commands.argument;
 
-import me.blazingtide.commands.cursor.Cursor;
+import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.argument.cursor.NullableArgumentCursor;
+import me.blazingtide.commands.cursor.Cursor;
+import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
 
 /**
  * The class is responsible for finding the argument
@@ -26,5 +28,15 @@ public interface ArgumentCursor extends Cursor {
      * @return the cursor
      */
     ArgumentCursor permission(String permission);
+
+    default void runChecks(int index, CommandArguments arguments, CursorResult result) {
+        if (arguments.getArguments().length <= index && this instanceof NonNullArgumentCursor) {
+            throw new CommandArgumentEmptyException(arguments.getCommandString());
+        }
+
+        final Argument argument = arguments.getArguments()[index];
+
+
+    }
 
 }
