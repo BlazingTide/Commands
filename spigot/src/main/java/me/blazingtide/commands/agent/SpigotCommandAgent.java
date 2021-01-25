@@ -3,8 +3,12 @@ package me.blazingtide.commands.agent;
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
+import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
+import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundException;
+import me.blazingtide.commands.exception.sender.CommandSenderException;
 import me.blazingtide.commands.sender.Sender;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -37,8 +41,21 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
     }
 
     @Override
-    public void handleException(CommandException exception, Object sender) {
-        exception.printStackTrace();
+    public void handleException(CommandException exception, Object senderObject, Command command) {
+        final CommandSender sender = (CommandSender) senderObject;
+
+        if (exception instanceof CommandSenderException) {
+            sender.sendMessage(ChatColor.RED + "You cannot run this command!");
+        }
+
+        if (exception instanceof CommandArgumentEmptyException) {
+            sender.sendMessage(ChatColor.RED + "Not enough arguments: /" + command.getLabel() + " " + command.getUsage());
+        }
+
+        if (exception instanceof CommandArgumentTypeNotFoundException) {
+            sender.sendMessage(ChatColor.RED + "Command type argument is not correctly set, please refer to an administrator.");
+            exception.printStackTrace();
+        }
     }
 
     @Override

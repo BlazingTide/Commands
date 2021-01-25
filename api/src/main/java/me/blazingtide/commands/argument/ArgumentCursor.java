@@ -70,7 +70,7 @@ public interface ArgumentCursor extends Cursor {
 
         final Argument argument = arguments.getArguments()[index];
         final Label label = argument.getLabel();
-        final String labelString = label.toString();
+        final String labelString = label.getValue();
 
         if (!Commands.getCommandService().getTypeAdapterMap().containsKey(clazz)) {
             throw new CommandArgumentTypeNotFoundException(commandString, labelString, clazz);
@@ -79,14 +79,22 @@ public interface ArgumentCursor extends Cursor {
         final TypeAdapter<?> typeAdapter = Commands.getCommandService().getTypeAdapterMap().get(clazz);
 
         try {
-            final Object object = typeAdapter.process(label);
-
-            return clazz.cast(object);
+            return clazz.cast(transformArgument(label, typeAdapter));
         } catch (Exception e) {
             typeAdapter.onException(sender, labelString, e);
 
             throw new CommandArgumentCastException(commandString, labelString);
         }
+    }
+
+    private Object transformArgument(Label label, TypeAdapter<?> adapter) {
+        final Object object = adapter.process(label);
+
+        if (object == null) {
+            throw new NullPointerException();
+        }
+
+        return object;
     }
 
 }

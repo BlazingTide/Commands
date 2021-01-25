@@ -33,8 +33,9 @@ public interface CommandAgent {
      * Handles a command exception.
      *
      * @param exception the command exception
+     * @param command
      */
-    void handleException(CommandException exception, Object sender);
+    void handleException(CommandException exception, Object sender, Command command);
 
     /**
      * Checks whether a user has permission to perform
@@ -94,7 +95,7 @@ public interface CommandAgent {
                 command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
             }
         } catch (CommandException exception) {
-            handleException(exception, senderObject);
+            handleException(exception, senderObject, command);
         }
     }
 
