@@ -5,7 +5,7 @@ The command library made for all Java-based applications.
 You can download the library in releases or build it yourself.
 To use the library inside a plugin, add this to your pom.xml.
 
-```java
+```xml
 <repositories>
     <repository>
         <id>jitpack.io</id>
