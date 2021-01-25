@@ -1,10 +1,14 @@
 package me.blazingtide.commands.argument.cursor;
 
 import me.blazingtide.commands.argument.ArgumentCursor;
+import me.blazingtide.commands.argument.CommandArguments;
+import me.blazingtide.commands.argument.CursorResult;
 import me.blazingtide.commands.label.Label;
 
 public class NonNullArgumentCursor implements ArgumentCursor {
 
+    private final int index;
+    private final CommandArguments commandArguments;
     private final Label label;
     private String permission;
 
@@ -12,9 +16,13 @@ public class NonNullArgumentCursor implements ArgumentCursor {
      * Ensures that this object can only be created
      * through the static constructor method.
      *
-     * @param label the label for the argument
+     * @param index            the index of the argument
+     * @param commandArguments the command arguments object
+     * @param label            the label for the argument
      */
-    protected NonNullArgumentCursor(Label label) {
+    protected NonNullArgumentCursor(int index, CommandArguments commandArguments, Label label) {
+        this.index = index;
+        this.commandArguments = commandArguments;
         this.label = label;
     }
 
@@ -23,21 +31,33 @@ public class NonNullArgumentCursor implements ArgumentCursor {
      *
      * @return the new cursor object
      */
-    public static NonNullArgumentCursor create(String label) {
-        return new NonNullArgumentCursor(Label.of(label));
+    public static NonNullArgumentCursor create(int index, CommandArguments arguments, String label) {
+        return new NonNullArgumentCursor(index, arguments, Label.of(label));
     }
 
     public <T> T as(Class<T> clazz) {
-        return null;
+        final CursorResult result = new CursorResult() {
+            @Override
+            public Label getLabel() {
+                return label;
+            }
+
+            @Override
+            public String getPermission() {
+                return permission;
+            }
+        };
+
+        return runChecks(index, clazz, commandArguments.getCommandString(), commandArguments.getSender(), commandArguments, result);
     }
 
     @Override
     public NullableArgumentCursor allowEmpty() {
-        return NullableArgumentCursor.create(label.getValue()).permission(permission);
+        return NullableArgumentCursor.create(index, commandArguments, label.getValue()).permission(permission);
     }
 
     @Override
-    public ArgumentCursor permission(String permission) {
+    public NonNullArgumentCursor permission(String permission) {
         this.permission = permission;
 
         return this;

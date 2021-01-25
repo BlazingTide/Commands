@@ -1,12 +1,16 @@
 package me.blazingtide.commands.argument.cursor;
 
 import me.blazingtide.commands.argument.ArgumentCursor;
+import me.blazingtide.commands.argument.CommandArguments;
+import me.blazingtide.commands.argument.CursorResult;
 import me.blazingtide.commands.label.Label;
 
 import java.util.Optional;
 
 public class NullableArgumentCursor implements ArgumentCursor {
 
+    private final int index;
+    private final CommandArguments commandArguments;
     private final Label label;
     private String permission;
 
@@ -14,24 +18,46 @@ public class NullableArgumentCursor implements ArgumentCursor {
      * Ensures that this object can only be created
      * through the static constructor method.
      *
-     * @param label the label for the argument
+     * @param index            the index of the argument
+     * @param commandArguments the command arguments object
+     * @param label            the label for the argument
      */
-    protected NullableArgumentCursor(Label label) {
+    protected NullableArgumentCursor(int index, CommandArguments commandArguments, Label label) {
+        this.index = index;
+        this.commandArguments = commandArguments;
         this.label = label;
     }
 
     /**
-     * Creates a new NullableArgumentCursor
+     * Creates a new NonNullArgumentCursor
      *
      * @return the new cursor object
      */
-    public static NullableArgumentCursor create(String label) {
-        return new NullableArgumentCursor(Label.of(label));
+    public static NullableArgumentCursor create(int index, CommandArguments arguments, String label) {
+        return new NullableArgumentCursor(index, arguments, Label.of(label));
+    }
+
+    public <T> Optional<T> as(Class<T> clazz) {
+        final CursorResult result = new CursorResult() {
+            @Override
+            public Label getLabel() {
+                return label;
+            }
+
+            @Override
+            public String getPermission() {
+                return permission;
+            }
+        };
+
+        final T mapped = runChecks(index, clazz, commandArguments.getCommandString(), commandArguments.getSender(), commandArguments, result);
+
+        return mapped == null ? Optional.empty() : Optional.of(mapped);
     }
 
     @Override
     public NullableArgumentCursor allowEmpty() {
-        return this;
+        return null;
     }
 
     @Override
@@ -41,7 +67,4 @@ public class NullableArgumentCursor implements ArgumentCursor {
         return this;
     }
 
-    public <T> Optional<T> as(Class<T> clazz) {
-        return Optional.empty();
-    }
 }

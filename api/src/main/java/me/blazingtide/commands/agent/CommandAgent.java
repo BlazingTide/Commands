@@ -37,6 +37,16 @@ public interface CommandAgent {
     void handleException(CommandException exception, Object sender);
 
     /**
+     * Checks whether a user has permission to perform
+     * the command or not.
+     *
+     * @param sender     the sender
+     * @param permission the permission
+     * @return has permission
+     */
+    boolean hasPermission(Sender sender, String permission);
+
+    /**
      * Called whenever a command is executed.
      * The method will find the correct command and then
      * handle that command.
@@ -49,16 +59,13 @@ public interface CommandAgent {
 
         String[] arguments = commandString.split(" ");
 
+        final String label = arguments[0];
+
         if (arguments.length == 1) {
             arguments = new String[]{};
-        } else if (arguments.length > 1) {
-            arguments = Arrays.copyOfRange(arguments, 1, arguments.length);
         } else {
-            System.out.println("Command failed since there is no label.");
-            return;
+            arguments = Arrays.copyOfRange(arguments, 1, arguments.length);
         }
-
-        final String label = arguments[0];
 
         for (Command command : repository) {
             if (label.equalsIgnoreCase(command.getLabel().getValue())) {

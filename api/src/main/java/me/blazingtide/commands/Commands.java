@@ -1,5 +1,6 @@
 package me.blazingtide.commands;
 
+import me.blazingtide.commands.adapter.TypeAdapter;
 import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.service.CommandService;
@@ -28,5 +29,9 @@ public class Commands {
         }
 
         commandService = service;
+    }
+
+    public static <T> void registerTypeAdapter(Class<T> clazz, TypeAdapter<T> adapter) {
+        getCommandService().getTypeAdapterMap().put(clazz, adapter);
     }
 }

@@ -27,7 +27,7 @@ public interface Sender {
      * Returns the sender object casted as the type supplied.
      *
      * @param clazz         the class of the type of sender
-     * @param commandString the entire command inputed
+     * @param commandString the entire command inputted
      * @param <T>           the type of sender
      * @return the casted sender
      * @throws CommandArgumentCastException thrown if the sender object {@link #getSenderObject()} and the class of type are not the same type
@@ -38,11 +38,11 @@ public interface Sender {
         Objects.requireNonNull(clazz);
         Objects.requireNonNull(object);
 
-        if (!object.getClass().equals(clazz)) {
+        if (!clazz.isInstance(object)) {
             throw new CommandSenderException(commandString);
         }
 
-        return clazz.cast(object.getClass());
+        return clazz.cast(object);
     }
 
 }

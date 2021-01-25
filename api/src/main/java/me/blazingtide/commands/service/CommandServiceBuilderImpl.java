@@ -1,13 +1,18 @@
 package me.blazingtide.commands.service;
 
 import me.blazingtide.commands.Commands;
+import me.blazingtide.commands.adapter.TypeAdapter;
+import me.blazingtide.commands.adapter.defaults.StringTypeAdapter;
 import me.blazingtide.commands.agent.CommandAgent;
 import me.blazingtide.commands.repository.CommandRepository;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class CommandServiceBuilderImpl implements CommandServiceBuilder {
 
+    private final Map<Class<?>, TypeAdapter<?>> typeAdapterMap = new HashMap<>();
     private CommandAgent agent;
     private CommandRepository repository;
 
@@ -34,6 +39,11 @@ public class CommandServiceBuilderImpl implements CommandServiceBuilder {
             }
 
             @Override
+            public Map<Class<?>, TypeAdapter<?>> getTypeAdapterMap() {
+                return typeAdapterMap;
+            }
+
+            @Override
             public CommandRepository getRepository() {
                 return repository;
             }
@@ -44,6 +54,8 @@ public class CommandServiceBuilderImpl implements CommandServiceBuilder {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        Commands.registerTypeAdapter(String.class, new StringTypeAdapter());
 
         return service;
     }

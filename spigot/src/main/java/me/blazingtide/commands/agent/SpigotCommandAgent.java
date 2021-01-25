@@ -3,8 +3,10 @@ package me.blazingtide.commands.agent;
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
+import me.blazingtide.commands.sender.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,14 +18,6 @@ import static me.blazingtide.commands.CommandsPlugin.SPIGOT_FALLBACK_PREFIX;
 public class SpigotCommandAgent implements CommandInjectionAgent {
 
     protected static Field COMMAND_MAP_FIELD;
-
-    static {
-        try {
-            COMMAND_MAP_FIELD = Bukkit.getPluginManager().getClass().getField("commandMap");
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-    }
 
     private final JavaPlugin plugin;
     private CommandMap commandMap;
@@ -48,6 +42,13 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
     }
 
     @Override
+    public boolean hasPermission(Sender sender, String permission) {
+        final Object spigotSender = sender.getSenderObject();
+
+        return spigotSender instanceof CommandSender && ((CommandSender) spigotSender).hasPermission(permission);
+    }
+
+    @Override
     public void inject(Command command) {
         registerCommand(command);
     }
@@ -66,8 +67,13 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         final PluginManager manager = Bukkit.getPluginManager();
 
         try {
+            if (COMMAND_MAP_FIELD == null) {
+                COMMAND_MAP_FIELD = Bukkit.getPluginManager().getClass().getDeclaredField("commandMap");
+                COMMAND_MAP_FIELD.setAccessible(true);
+            }
+
             return (CommandMap) COMMAND_MAP_FIELD.get(manager);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
 

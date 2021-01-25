@@ -1,9 +1,12 @@
 package me.blazingtide.commands.adapter;
 
+import me.blazingtide.commands.label.Label;
+import me.blazingtide.commands.sender.Sender;
+
 public interface TypeAdapter<T> {
 
-    T process(String str);
+    T process(Label label);
 
-    void onException(Object sender, String given, Exception exception);
+    void onException(Sender sender, String given, Exception exception);
 
 }

@@ -4,10 +4,14 @@ import me.blazingtide.commands.exception.CommandException;
 
 public class CommandArgumentException extends CommandException {
 
-    protected final String argument;
+    private final String argument;
 
     public CommandArgumentException(String commandString, String argument) {
         super(commandString);
         this.argument = argument;
+    }
+
+    public String getArgument() {
+        return argument;
     }
 }

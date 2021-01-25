@@ -1,5 +1,6 @@
 package me.blazingtide.commands;
 
+import me.blazingtide.commands.adapters.PlayerTypeAdapter;
 import me.blazingtide.commands.agent.SpigotCommandAgent;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.repository.CommandRepository;
@@ -19,6 +20,8 @@ public class CommandsPlugin extends JavaPlugin {
                 .agent(SpigotCommandAgent.of(this))
                 .repository(CommandRepository.basic())
                 .register();
+
+        Commands.registerTypeAdapter(Player.class, new PlayerTypeAdapter());
 
         registerTest();
     }
