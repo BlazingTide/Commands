@@ -1,11 +1,32 @@
 # Commands
+The command library made for all Java-based applications.
+
+### Installation
+You can download the library in releases or build it yourself.
+To use the library inside a plugin, add this to your pom.xml.
+
+```java
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>me.blazingtide.commands</groupId>
+    <artifactId>api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <scope>compile</scope>
+</dependency>
+```
 
 ### Modules
-##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api) - The main api for the project
+##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api) - The main api for the project (Complete)
 
-##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) - The spigot module for the project
+##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) - The spigot module for the project (Complete)
 
-##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord) - The bungeecord module for the project
+##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord) - The bungeecord module for the project (In-progress)
 
 ## How to use
 If you're not using any of the prebuilt plugins then this is how you register the api for usage.
