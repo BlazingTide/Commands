@@ -90,7 +90,13 @@ public interface CommandAgent {
 
         try {
             if (command.isAsync()) {
-                runAsync(() -> command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender)));
+                runAsync(() -> {
+                    try {
+                        command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
+                    } catch (CommandException exception) {
+                        handleException(exception, senderObject, command);
+                    }
+                });
             } else {
                 command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
             }

@@ -3,6 +3,7 @@ package me.blazingtide.commands.agent;
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
+import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
 import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
 import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundException;
@@ -56,6 +57,10 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         if (exception instanceof CommandArgumentTypeNotFoundException) {
             sender.sendMessage(ChatColor.RED + "Command type argument is not correctly set, please refer to an administrator.");
             exception.printStackTrace();
+        }
+
+        if (exception instanceof CommandPermissionException) {
+            sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command.");
         }
 
         if (exception instanceof CommandArgumentCastException) {
