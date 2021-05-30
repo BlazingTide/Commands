@@ -33,9 +33,10 @@ public interface CommandAgent {
      * Handles a command exception.
      *
      * @param exception the command exception
-     * @param command
+     * @param command the command object
+     * @param label the label of the command
      */
-    void handleException(CommandException exception, Object sender, Command command);
+    void handleException(CommandException exception, Object sender, Command command, String label);
 
     /**
      * Checks whether a user has permission to perform
@@ -69,10 +70,12 @@ public interface CommandAgent {
         }
 
         for (Command command : repository) {
-            if (label.equalsIgnoreCase(command.getLabel().getValue())) {
-                executeCommand(command, sender, commandString, arguments);
-                break;
-            }
+            final String[] finalArguments = arguments;
+
+            command.getLabels()
+                    .stream()
+                    .filter(l -> l.getValue().equalsIgnoreCase(label))
+                    .forEach(label1 -> executeCommand(command, sender, commandString, finalArguments));
         }
     }
 
@@ -94,14 +97,14 @@ public interface CommandAgent {
                     try {
                         command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
                     } catch (CommandException exception) {
-                        handleException(exception, senderObject, command);
+                        handleException(exception, senderObject, command, commandString.split(" ")[0]);
                     }
                 });
             } else {
                 command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
             }
         } catch (CommandException exception) {
-            handleException(exception, senderObject, command);
+            handleException(exception, senderObject, command, commandString.split(" ")[0]);
         }
     }
 

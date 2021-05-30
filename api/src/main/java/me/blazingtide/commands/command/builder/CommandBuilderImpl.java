@@ -7,21 +7,22 @@ import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.service.CommandService;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class CommandBuilderImpl implements CommandBuilder {
 
     private Consumer<CommandArguments> executor;
-    private Label label;
-    private String usage;
-    private String permission;
+    private List<Label> labels;
+    private String usage = "";
+    private String permission = "";
     private boolean async;
 
     @Override
     public CommandBuilder label(String label) {
         Objects.requireNonNull(label);
-        this.label = Label.of(label);
+        labels.add(Label.of(label));
         return this;
     }
 
@@ -54,15 +55,15 @@ public class CommandBuilderImpl implements CommandBuilder {
 
     @Override
     public Command create() {
-        Objects.requireNonNull(label);
-        Objects.requireNonNull(usage);
-        Objects.requireNonNull(executor);
-        Objects.requireNonNull(permission);
+        if (labels.isEmpty()) {
+            throw new NullPointerException("There were no labels specified.");
+        }
+        Objects.requireNonNull(executor, "Command execution has not been defined.");
 
         final Command command = new Command() { //Creates a new command instance
             @Override
-            public Label getLabel() {
-                return label;
+            public List<Label> getLabels() {
+                return labels;
             }
 
             @Override

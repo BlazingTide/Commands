@@ -8,6 +8,7 @@ import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
 import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
 import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundException;
 import me.blazingtide.commands.exception.sender.CommandSenderException;
+import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,7 +44,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
     }
 
     @Override
-    public void handleException(CommandException exception, Object senderObject, Command command) {
+    public void handleException(CommandException exception, Object senderObject, Command command, String label) {
         final CommandSender sender = (CommandSender) senderObject;
 
         if (exception instanceof CommandSenderException) {
@@ -51,7 +52,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         }
 
         if (exception instanceof CommandArgumentEmptyException) {
-            sender.sendMessage(ChatColor.RED + "Not enough arguments: /" + command.getLabel() + " " + command.getUsage());
+            sender.sendMessage(ChatColor.RED + "Not enough arguments: /" + label + " " + command.getUsage());
         }
 
         if (exception instanceof CommandArgumentTypeNotFoundException) {
@@ -85,9 +86,11 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
             commandMap = getCommandMap();
         }
 
-        final BukkitCommand bukkitCommand = new BukkitCommand(command.getLabel().getValue());
+        for (Label label : command.getLabels()) {
+            final BukkitCommand bukkitCommand = new BukkitCommand(label.getValue());
 
-        commandMap.register(SPIGOT_FALLBACK_PREFIX, bukkitCommand);
+            commandMap.register(SPIGOT_FALLBACK_PREFIX, bukkitCommand);
+        }
     }
 
     private CommandMap getCommandMap() {

@@ -6,6 +6,7 @@ import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.permission.PermissionHolder;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -25,11 +26,11 @@ import java.util.function.Consumer;
 public interface Command extends PermissionHolder {
 
     /**
-     * The label of the command
+     * The labels of the command
      *
-     * @return the label
+     * @return the labels
      */
-    Label getLabel();
+    List<Label> getLabels();
 
     /**
      * Returns the usage for the command.
@@ -62,10 +63,11 @@ public interface Command extends PermissionHolder {
      */
     default CommandBuilder cloneCommand() {
         final CommandBuilder builder = new CommandBuilderImpl()
-                .label(this.getLabel().getValue())
                 .usage(this.getUsage())
                 .permission(this.getPermission())
                 .execute(this.getExecutor());
+
+        this.getLabels().forEach(label -> builder.label(label.getValue()));
 
         if (isAsync()) {
             builder.async();
