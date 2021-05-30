@@ -16,12 +16,14 @@ pom.xml.
     </repository>
 </repositories>
 
-<dependency>
-<groupId>me.blazingtide.commands</groupId>
-<artifactId>api</artifactId>
-<version>1.0-SNAPSHOT</version>
-<scope>compile</scope>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>me.blazingtide.commands</groupId>
+        <artifactId>api</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
 ```
 
 ### Modules
@@ -61,17 +63,17 @@ final Optional<Player> targetOptional=arguments.get(0)
         .permission("command.checkxp.other") //Checks if the argument is supplied that the player has permission to perform this command
         .as(Player.class); //Checks whether an argument is supplied and checks if the argument is a Spigot Player
 
-        targetOptional.ifPresentOrElse(player->{
-final CommandSender sender=arguments.sender(CommandSender.class); //Automatically converts the sender object into a CommandSender
-final Player target=targetOptional.get();
+targetOptional.ifPresentOrElse(player->{
+    final CommandSender sender=arguments.sender(CommandSender.class); //Automatically converts the sender object into a CommandSender
+    final Player target=targetOptional.get();
 
-        sender.sendMessage(target.getName()+"'s XP: "+target.getExp());
-        },()->{
-final Player sender=arguments.sender(Player.class); //Automatically converts the sender object into a Player and if the sender isn't a player then the command will stop
-
+    sender.sendMessage(target.getName()+"'s XP: "+target.getExp());
+},()->{
+        final Player sender=arguments.sender(Player.class); //Automatically converts the sender object into a Player and if the sender isn't a player then the command will stop
+    
         sender.sendMessage("Your XP: "+sender.getExp());
-        });
-        }).create(); //Creates the command
+    });
+}).create(); //Creates the command
 
-        checkXpCommand.cloneCommand().label("xp").create(); //Clones the same command but under a different label
+checkXpCommand.cloneCommand().label("xp").create(); //Clones the same command but under a different label
 ```
