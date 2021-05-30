@@ -7,6 +7,7 @@ import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.service.CommandService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 public class CommandBuilderImpl implements CommandBuilder {
 
     private Consumer<CommandArguments> executor;
-    private List<Label> labels;
+    private List<Label> labels = new ArrayList<>();
     private String usage = "";
     private String permission = "";
     private boolean async;
