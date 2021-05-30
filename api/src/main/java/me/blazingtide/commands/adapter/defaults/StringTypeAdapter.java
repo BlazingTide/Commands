@@ -5,6 +5,7 @@ import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 
 public class StringTypeAdapter implements TypeAdapter<String> {
+
     @Override
     public String process(Label label) {
         return label.getValue();
@@ -14,4 +15,5 @@ public class StringTypeAdapter implements TypeAdapter<String> {
     public void onException(Sender sender, String given, Exception exception) {
 
     }
+
 }
