@@ -23,7 +23,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     @Override
     public CommandBuilder label(String label) {
         Objects.requireNonNull(label);
-        labels.add(Label.of(label));
+        this.labels.add(Label.of(label));
         return this;
     }
 
