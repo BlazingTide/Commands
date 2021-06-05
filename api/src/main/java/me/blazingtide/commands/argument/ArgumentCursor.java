@@ -34,7 +34,7 @@ public interface ArgumentCursor extends Cursor {
      * @param permission the permission
      * @return the cursor
      */
-    ArgumentCursor permission(String permission);
+    NonNullArgumentCursor permission(String permission);
 
     /**
      * Checks whether an argument is valid or not
