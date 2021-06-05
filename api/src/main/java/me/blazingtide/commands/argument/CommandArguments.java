@@ -32,7 +32,7 @@ public interface CommandArguments {
 
     Sender getSender();
 
-    default ArgumentCursor get(int index) throws CommandArgumentEmptyException, CommandArgumentCastException {
+    default NonNullArgumentCursor get(int index) throws CommandArgumentEmptyException, CommandArgumentCastException {
         final Argument argument = getArguments().length <= index ? null : getArguments()[index];
 
         return NonNullArgumentCursor.create(index, this, argument == null ? null : argument.getLabel().getValue());
