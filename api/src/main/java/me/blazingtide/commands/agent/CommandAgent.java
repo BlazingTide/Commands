@@ -79,7 +79,7 @@ public interface CommandAgent {
         }
     }
 
-    private void executeCommand(Command command, Object senderObject, String commandString, String[] stringArguments) {
+    default void executeCommand(Command command, Object senderObject, String commandString, String[] stringArguments) {
         final Argument[] arguments = new Argument[stringArguments.length];
 
         for (int i = 0; i < stringArguments.length; i++) {

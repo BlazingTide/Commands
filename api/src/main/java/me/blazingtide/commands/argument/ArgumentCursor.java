@@ -87,7 +87,7 @@ public interface ArgumentCursor extends Cursor {
         }
     }
 
-    private Object transformArgument(Label label, TypeAdapter<?> adapter) {
+    default Object transformArgument(Label label, TypeAdapter<?> adapter) {
         final Object object = adapter.process(label);
 
         if (object == null) {
