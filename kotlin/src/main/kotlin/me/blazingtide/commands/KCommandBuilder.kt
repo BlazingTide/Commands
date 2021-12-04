@@ -22,6 +22,10 @@ class KCommandBuilder {
         this._usage = str
     }
 
+    fun execute(executor: (args: CommandArguments) -> Unit) {
+        this._executor = executor
+    }
+
     fun async(executor: (args: CommandArguments) -> Unit) {
         this._executor = executor
         this._async = true
