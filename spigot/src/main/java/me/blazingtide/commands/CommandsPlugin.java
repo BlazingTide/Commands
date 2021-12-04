@@ -22,7 +22,7 @@ public class CommandsPlugin extends JavaPlugin {
                 .register();
 
         registerDefaults();
-        registerTest();
+//        registerTest();
     }
 
     private void registerDefaults() {

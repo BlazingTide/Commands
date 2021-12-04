@@ -12,6 +12,7 @@
         <module>api</module>
         <module>spigot</module>
         <module>bungeecord</module>
+        <module>kotlin</module>
     </modules>
 
     <properties>
