@@ -130,6 +130,10 @@ public interface CommandAgent {
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
 
+            if (i == 0) {
+                c = Character.toUpperCase(c);
+            }
+
             newLabelStr.append(c);
             if (c == ' ' && i + 1 < chars.length) {
                 newLabelStr.append(Character.toUpperCase(chars[i + 1]));
@@ -156,18 +160,19 @@ public interface CommandAgent {
 
         try {
             if (command.isAsync()) {
+                String finalLabelStr = labelStr;
                 runAsync(() -> {
                     try {
                         command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
                     } catch (CommandException exception) {
-                        handleException(exception, senderObject, command, commandString.split(" ")[0]);
+                        handleException(exception, senderObject, command, finalLabelStr);
                     }
                 });
             } else {
                 command.getExecutor().accept(CommandArguments.of(commandString, arguments, sender));
             }
         } catch (CommandException exception) {
-            handleException(exception, senderObject, command, commandString.split(" ")[0]);
+            handleException(exception, senderObject, command, labelStr);
         }
     }
 

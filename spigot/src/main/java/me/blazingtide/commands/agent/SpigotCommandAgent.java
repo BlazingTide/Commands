@@ -56,7 +56,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         }
 
         if (exception instanceof CommandArgumentEmptyException) {
-            sender.sendMessage(ChatColor.RED + "Not enough arguments: /" + label + " " + command.getUsage());
+            sender.sendMessage(ChatColor.RED + "Not enough arguments: /" + label.toLowerCase(Locale.ROOT) + " " + command.getUsage());
         }
 
         if (exception instanceof CommandArgumentTypeNotFoundException) {
