@@ -9,7 +9,7 @@ open class KCommandBuilder {
     var _usage: String? = null
     var _async = false
     var subCommands = arrayListOf<KCommandBuilder.() -> Unit>()
-    lateinit var _executor: (args: CommandArguments) -> Unit
+    var _executor: ((CommandArguments) -> Unit?)? = null
 
     fun label(str: String) {
         this._label = str

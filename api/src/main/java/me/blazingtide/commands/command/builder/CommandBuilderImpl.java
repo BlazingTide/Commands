@@ -18,6 +18,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     private Consumer<CommandArguments> executor;
     private List<Label> labels = new ArrayList<>();
     private String usage = "";
+    private String description = "";
     private String permission = "";
     private boolean async;
     private List<SubCommand> subCommands = new ArrayList<>();
@@ -58,6 +59,13 @@ public class CommandBuilderImpl implements CommandBuilder {
     }
 
     @Override
+    public CommandBuilder description(String description) {
+        Objects.requireNonNull(description);
+        this.description = description;
+        return this;
+    }
+
+    @Override
     public CommandBuilder async() {
         this.async = true;
         return this;
@@ -68,12 +76,19 @@ public class CommandBuilderImpl implements CommandBuilder {
         if (labels.isEmpty()) {
             throw new NullPointerException("There were no labels specified.");
         }
-        Objects.requireNonNull(executor, "Command execution has not been defined.");
+//        if (subCommands.isEmpty()) {
+//            Objects.requireNonNull(executor, "Command execution has not been defined.");
+//        }
 
         final Command command = new Command() { //Creates a new command instance
             @Override
             public List<Label> getLabels() {
                 return labels;
+            }
+
+            @Override
+            public String getDescription() {
+                return description;
             }
 
             @Override

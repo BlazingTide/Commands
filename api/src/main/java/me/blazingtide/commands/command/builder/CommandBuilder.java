@@ -32,6 +32,15 @@ public interface CommandBuilder extends Cursor {
     CommandBuilder usage(String usage);
 
     /**
+     * Sets the description of the command.
+     * It's used primarily in the spigot/bungee libraries.
+     *
+     * @param description the command description
+     * @return the command builder
+     */
+    CommandBuilder description(String description);
+
+    /**
      * Sets the executor for the command.
      * The executor is a Consumer that consumers the type {@link CommandArguments}
      *

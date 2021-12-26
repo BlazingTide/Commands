@@ -1,7 +1,9 @@
 package me.blazingtide.commands.agent;
 
+import com.sun.security.jgss.InquireSecContextPermission;
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
+import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
@@ -10,15 +12,17 @@ import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundExc
 import me.blazingtide.commands.exception.sender.CommandSenderException;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static me.blazingtide.commands.CommandsPlugin.SPIGOT_FALLBACK_PREFIX;
 
@@ -67,6 +71,36 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         if (exception instanceof CommandArgumentCastException) {
 
         }
+    }
+
+    @Override
+    public void sendHelp(Command command, Object senderObject, String label) {
+        final CommandSender sender = (CommandSender) senderObject;
+
+        final ChatColor PRIMARY_COLOR = ChatColor.of("#59afff");
+        final ChatColor SECONDARY_COLOR = ChatColor.of("#bddfff");
+
+        sender.sendMessage(" ");
+        sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + label + " Help:");
+        for (SubCommand subCommand : command.getSubCommands()) {
+            final String arg = subCommand.getLabels()
+                    .stream()
+                    .map(Label::getValue)
+                    .collect(Collectors.joining(","));
+
+            String usage = "";
+
+            if (subCommand.getUsage() != null && !subCommand.getUsage().isEmpty()) {
+                usage = " " + subCommand.getUsage();
+            }
+
+            sender.sendMessage(ChatColor.GRAY + " - " + SECONDARY_COLOR + "/" + label.toLowerCase(Locale.ROOT) + " " + arg + usage
+                    + " " + ChatColor.GRAY + " - " + ChatColor.WHITE + subCommand.getDescription());
+        }
+        if (command.getSubCommands().isEmpty()) {
+            sender.sendMessage(" " + SECONDARY_COLOR + "No sub commands registered");
+        }
+        sender.sendMessage(" ");
     }
 
     @Override

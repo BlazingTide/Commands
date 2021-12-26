@@ -20,7 +20,9 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
         builder.async()
     }
 
-    builder.execute { conf._executor(it) }
+    if (conf._executor != null) {
+        builder.execute { conf._executor?.let { it1 -> it1(it) } }
+    }
 
     val command = builder.create()
 
@@ -42,7 +44,9 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
             builder.async()
         }
 
-        builder.execute { sub._executor(it) }
+        if (sub._executor != null) {
+            builder.execute { sub._executor?.let { it1 -> it1(it) } }
+        }
 
         command.subCommands.add(builder.create())
     }

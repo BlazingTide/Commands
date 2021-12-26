@@ -1,6 +1,7 @@
 package me.blazingtide.commands.command.sub.builder;
 
 import me.blazingtide.commands.argument.CommandArguments;
+import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.cursor.Cursor;
 
@@ -13,7 +14,7 @@ import java.util.function.Consumer;
 public interface SubCommandBuilder extends Cursor {
 
     /**
-     * Sets the label for the command.
+     * Sets the label for the sub command.
      *
      * @param label the command label
      * @return the command builder
@@ -21,7 +22,7 @@ public interface SubCommandBuilder extends Cursor {
     SubCommandBuilder label(String label);
 
     /**
-     * Sets the usage for the command.
+     * Sets the usage for the sub command.
      * The usage is sent to the player if the user doesn't input
      * the correct amount of arguments.
      *
@@ -31,7 +32,7 @@ public interface SubCommandBuilder extends Cursor {
     SubCommandBuilder usage(String usage);
 
     /**
-     * Sets the executor for the command.
+     * Sets the executor for the sub command.
      * The executor is a Consumer that consumers the type {@link CommandArguments}
      *
      * @param executor the command executor
@@ -40,7 +41,7 @@ public interface SubCommandBuilder extends Cursor {
     SubCommandBuilder execute(Consumer<CommandArguments> executor);
 
     /**
-     * Sets the permission for the command.
+     * Sets the permission for the sub command.
      *
      * @param permission the permission
      * @return the command builder
@@ -48,7 +49,16 @@ public interface SubCommandBuilder extends Cursor {
     SubCommandBuilder permission(String permission);
 
     /**
-     * Registers a new sub command to this command.
+     * Sets the description of the sub command.
+     * It's used primarily in the spigot/bungee libraries.
+     *
+     * @param description the command description
+     * @return the command builder
+     */
+    SubCommandBuilder description(String description);
+
+    /**
+     * Registers a new sub command to this sub command.
      * You can have multiple sub commands
      *
      * @param subCommand the sub command

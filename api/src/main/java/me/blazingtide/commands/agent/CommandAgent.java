@@ -83,12 +83,12 @@ public interface CommandAgent {
                     .stream()
                     .filter(l -> l.getValue().equalsIgnoreCase(label))
                     .forEach(ignored -> {
-                        filterSubCommands(commandString, command, sender, finalArguments);
+                        filterSubCommands(commandString, command, label, sender, finalArguments);
                     });
         }
     }
 
-    default void filterSubCommands(String commandString, Command command, Object sender, String[] arguments) {
+    default void filterSubCommands(String commandString, Command command, String labelStr, Object sender, String[] arguments) {
         //Find if there's any subcommands
         //If there are sub commands, recursively call this method again with the correct sub commands
         if (arguments.length != 0) {
@@ -108,15 +108,36 @@ public interface CommandAgent {
                 }
                 final String[] finalArguments = arguments;
                 //Gotta do this continuously since we allow unlimited sub commands
-                collect.forEach(subCommand -> filterSubCommands(commandString, subCommand, sender, finalArguments));
+                labelStr += " " + subCommandLabel;
+
+                final String finalLabelStr = labelStr;
+                collect.forEach(subCommand -> filterSubCommands(commandString, subCommand, finalLabelStr, sender, finalArguments));
                 return;
             }
         }
 
-        executeCommand(command, sender, commandString, arguments);
+        executeCommand(command, sender, labelStr, commandString, arguments);
     }
 
-    default void executeCommand(Command command, Object senderObject, String commandString, String[] stringArguments) {
+    default void sendHelp(Command command, Object senderObject, String labelStr) {
+    }
+
+    default void executeCommand(Command command, Object senderObject, String labelStr, String commandString, String[] stringArguments) {
+        //Capitalize the label str (for cosmetic purposes)
+        final StringBuilder newLabelStr = new StringBuilder();
+        final char[] chars = labelStr.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            newLabelStr.append(c);
+            if (c == ' ' && i + 1 < chars.length) {
+                newLabelStr.append(Character.toUpperCase(chars[i + 1]));
+                i++;
+            }
+        }
+        labelStr = newLabelStr.toString();
+
         final Argument[] arguments = new Argument[stringArguments.length];
 
         for (int i = 0; i < stringArguments.length; i++) {
@@ -127,6 +148,11 @@ public interface CommandAgent {
         }
 
         final Sender sender = () -> senderObject;
+
+        if (command.getExecutor() == null) {
+            sendHelp(command, senderObject, labelStr);
+            return;
+        }
 
         try {
             if (command.isAsync()) {

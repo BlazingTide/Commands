@@ -44,6 +44,15 @@ public interface Command extends PermissionHolder {
     String getUsage();
 
     /**
+     * Returns the description of the command.
+     * Use this to label your command and
+     * give a valid description for your users.
+     *
+     * @return the command description
+     */
+    String getDescription();
+
+    /**
      * Returns the executor for the command.
      * The executor is a Consumer that consumers the type {@link CommandArguments}
      *
