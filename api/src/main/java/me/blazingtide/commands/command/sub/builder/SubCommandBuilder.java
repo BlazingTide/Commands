@@ -1,7 +1,6 @@
-package me.blazingtide.commands.command.builder;
+package me.blazingtide.commands.command.sub.builder;
 
 import me.blazingtide.commands.argument.CommandArguments;
-import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.cursor.Cursor;
 
@@ -11,7 +10,7 @@ import java.util.function.Consumer;
  * This class represents the builder responsible for creating
  * commands.
  */
-public interface CommandBuilder extends Cursor {
+public interface SubCommandBuilder extends Cursor {
 
     /**
      * Sets the label for the command.
@@ -19,7 +18,7 @@ public interface CommandBuilder extends Cursor {
      * @param label the command label
      * @return the command builder
      */
-    CommandBuilder label(String label);
+    SubCommandBuilder label(String label);
 
     /**
      * Sets the usage for the command.
@@ -29,7 +28,7 @@ public interface CommandBuilder extends Cursor {
      * @param usage the command usage
      * @return the command builder
      */
-    CommandBuilder usage(String usage);
+    SubCommandBuilder usage(String usage);
 
     /**
      * Sets the executor for the command.
@@ -38,7 +37,7 @@ public interface CommandBuilder extends Cursor {
      * @param executor the command executor
      * @return the command builder
      */
-    CommandBuilder execute(Consumer<CommandArguments> executor);
+    SubCommandBuilder execute(Consumer<CommandArguments> executor);
 
     /**
      * Sets the permission for the command.
@@ -46,7 +45,7 @@ public interface CommandBuilder extends Cursor {
      * @param permission the permission
      * @return the command builder
      */
-    CommandBuilder permission(String permission);
+    SubCommandBuilder permission(String permission);
 
     /**
      * Registers a new sub command to this command.
@@ -55,20 +54,20 @@ public interface CommandBuilder extends Cursor {
      * @param subCommand the sub command
      * @return the command builder
      */
-    CommandBuilder subCommand(SubCommand subCommand);
+    SubCommandBuilder subCommand(SubCommand subCommand);
 
     /**
      * Runs the executor provided in {@link #execute(Consumer)} asynchronously
      *
      * @return the command builder
      */
-    CommandBuilder async();
+    SubCommandBuilder async();
 
     /**
-     * Creates the command object.
+     * Creates the sub command object.
      *
      * @return command
      */
-    Command create();
+    SubCommand create();
 
 }

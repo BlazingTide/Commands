@@ -22,5 +22,30 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
 
     builder.execute { conf._executor(it) }
 
-    return builder.create()
+    val command = builder.create()
+
+    for (subCommand in conf.subCommands) {
+        val sub = KCommandBuilder().apply(subCommand)
+
+        val builder = Commands.subCommand()
+            .label(sub._label)
+
+        if (sub._permission != null) {
+            builder.permission(sub._permission)
+        }
+
+        if (sub._usage != null) {
+            builder.usage(sub._usage)
+        }
+
+        if (sub._async) {
+            builder.async()
+        }
+
+        builder.execute { sub._executor(it) }
+
+        command.subCommands.add(builder.create())
+    }
+
+    return command
 }

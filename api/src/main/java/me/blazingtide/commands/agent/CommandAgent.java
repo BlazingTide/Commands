@@ -4,12 +4,15 @@ import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.argument.Argument;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
+import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Command agents are handlers that register the newly created commands.
@@ -33,8 +36,8 @@ public interface CommandAgent {
      * Handles a command exception.
      *
      * @param exception the command exception
-     * @param command the command object
-     * @param label the label of the command
+     * @param command   the command object
+     * @param label     the label of the command
      */
     void handleException(CommandException exception, Object sender, Command command, String label);
 
@@ -59,10 +62,14 @@ public interface CommandAgent {
     default void onCommand(String commandString, Object sender) {
         final Collection<Command> repository = Commands.getCommandService().getRepository().getCollection();
 
+        //Split all the arguments & collect them into an array
         String[] arguments = commandString.split(" ");
 
+        //Find the label, the first argument
         final String label = arguments[0];
 
+        //Check if arguments is empty, if it is then set the arguments to be a new empty string
+        //if not, exclude the label from the arguments
         if (arguments.length == 1) {
             arguments = new String[]{};
         } else {
@@ -75,8 +82,38 @@ public interface CommandAgent {
             command.getLabels()
                     .stream()
                     .filter(l -> l.getValue().equalsIgnoreCase(label))
-                    .forEach(label1 -> executeCommand(command, sender, commandString, finalArguments));
+                    .forEach(ignored -> {
+                        filterSubCommands(commandString, command, sender, finalArguments);
+                    });
         }
+    }
+
+    default void filterSubCommands(String commandString, Command command, Object sender, String[] arguments) {
+        //Find if there's any subcommands
+        //If there are sub commands, recursively call this method again with the correct sub commands
+        if (arguments.length != 0) {
+            String subCommandLabel = arguments[0];
+
+            //A list of all the sub commands registered to the subCommandLabel
+            final List<SubCommand> collect = command.getSubCommands()
+                    .stream()
+                    .filter(sub -> sub.getLabels().stream().anyMatch(l1 -> l1.getValue().equalsIgnoreCase(subCommandLabel)))
+                    .collect(Collectors.toList());
+
+            if (!collect.isEmpty()) {
+                if (arguments.length == 1) {
+                    arguments = new String[]{};
+                } else {
+                    arguments = Arrays.copyOfRange(arguments, 1, arguments.length);
+                }
+                final String[] finalArguments = arguments;
+                //Gotta do this continuously since we allow unlimited sub commands
+                collect.forEach(subCommand -> filterSubCommands(commandString, subCommand, sender, finalArguments));
+                return;
+            }
+        }
+
+        executeCommand(command, sender, commandString, arguments);
     }
 
     default void executeCommand(Command command, Object senderObject, String commandString, String[] stringArguments) {

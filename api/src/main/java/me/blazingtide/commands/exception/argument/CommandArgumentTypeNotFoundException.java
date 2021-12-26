@@ -1,7 +1,5 @@
 package me.blazingtide.commands.exception.argument;
 
-import me.blazingtide.commands.exception.CommandException;
-
 public class CommandArgumentTypeNotFoundException extends CommandArgumentException {
 
     private final Class<?> type;

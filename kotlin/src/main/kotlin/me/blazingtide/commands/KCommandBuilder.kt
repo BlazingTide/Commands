@@ -2,12 +2,13 @@ package me.blazingtide.commands
 
 import me.blazingtide.commands.argument.CommandArguments
 
-class KCommandBuilder {
+open class KCommandBuilder {
 
     var _label: String? = null
     var _permission: String? = null
     var _usage: String? = null
     var _async = false
+    var subCommands = arrayListOf<KCommandBuilder.() -> Unit>()
     lateinit var _executor: (args: CommandArguments) -> Unit
 
     fun label(str: String) {
@@ -24,6 +25,10 @@ class KCommandBuilder {
 
     fun execute(executor: (args: CommandArguments) -> Unit) {
         this._executor = executor
+    }
+
+    fun subCommand(builder: KCommandBuilder.() -> Unit) {
+        subCommands.add(builder)
     }
 
     fun async(executor: (args: CommandArguments) -> Unit) {

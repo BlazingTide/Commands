@@ -1,19 +1,15 @@
-package me.blazingtide.commands.command.builder;
+package me.blazingtide.commands.command.sub.builder;
 
-import me.blazingtide.commands.Commands;
-import me.blazingtide.commands.agent.CommandInjectionAgent;
 import me.blazingtide.commands.argument.CommandArguments;
-import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.label.Label;
-import me.blazingtide.commands.service.CommandService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class CommandBuilderImpl implements CommandBuilder {
+public class SubCommandBuilderImpl implements SubCommandBuilder {
 
     private Consumer<CommandArguments> executor;
     private List<Label> labels = new ArrayList<>();
@@ -23,54 +19,54 @@ public class CommandBuilderImpl implements CommandBuilder {
     private List<SubCommand> subCommands = new ArrayList<>();
 
     @Override
-    public CommandBuilder label(String label) {
+    public SubCommandBuilder label(String label) {
         Objects.requireNonNull(label);
         this.labels.add(Label.of(label));
         return this;
     }
 
     @Override
-    public CommandBuilder usage(String usage) {
+    public SubCommandBuilder usage(String usage) {
         Objects.requireNonNull(usage);
         this.usage = usage;
         return this;
     }
 
     @Override
-    public CommandBuilder execute(Consumer<CommandArguments> executor) {
+    public SubCommandBuilder execute(Consumer<CommandArguments> executor) {
         Objects.requireNonNull(executor);
         this.executor = executor;
         return this;
     }
 
     @Override
-    public CommandBuilder permission(String permission) {
+    public SubCommandBuilder permission(String permission) {
         Objects.requireNonNull(permission);
         this.permission = permission;
         return this;
     }
 
     @Override
-    public CommandBuilder subCommand(SubCommand subCommand) {
+    public SubCommandBuilder subCommand(SubCommand subCommand) {
         Objects.requireNonNull(subCommand);
         this.subCommands.add(subCommand);
         return this;
     }
 
     @Override
-    public CommandBuilder async() {
+    public SubCommandBuilder async() {
         this.async = true;
         return this;
     }
 
     @Override
-    public Command create() {
+    public SubCommand create() {
         if (labels.isEmpty()) {
             throw new NullPointerException("There were no labels specified.");
         }
         Objects.requireNonNull(executor, "Command execution has not been defined.");
 
-        final Command command = new Command() { //Creates a new command instance
+        return new SubCommand() { //Creates a new command instance
             @Override
             public List<Label> getLabels() {
                 return labels;
@@ -101,16 +97,5 @@ public class CommandBuilderImpl implements CommandBuilder {
                 return permission;
             }
         };
-
-        final CommandService service = Commands.getCommandService();
-
-        service.getRepository().getCollection().add(command); //Stores the command
-
-        //Injects the command
-        if (service.getAgent() instanceof CommandInjectionAgent) {
-            ((CommandInjectionAgent) service.getAgent()).inject(command);
-        }
-
-        return command;
     }
 }
