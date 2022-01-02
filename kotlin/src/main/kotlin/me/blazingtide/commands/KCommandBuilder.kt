@@ -7,12 +7,17 @@ open class KCommandBuilder {
     var _label: String? = null
     var _permission: String? = null
     var _usage: String? = null
+    var _description: String = ""
     var _async = false
     var subCommands = arrayListOf<KCommandBuilder.() -> Unit>()
     var _executor: ((CommandArguments) -> Unit?)? = null
 
     fun label(str: String) {
         this._label = str
+    }
+
+    fun description(description: String) {
+        this._description = description
     }
 
     fun permission(str: String) {

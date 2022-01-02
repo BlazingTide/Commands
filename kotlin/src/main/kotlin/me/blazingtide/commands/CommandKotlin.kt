@@ -19,6 +19,7 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
     if (conf._async) {
         builder.async()
     }
+    builder.description(conf._description)
 
     if (conf._executor != null) {
         builder.execute { conf._executor?.let { it1 -> it1(it) } }
