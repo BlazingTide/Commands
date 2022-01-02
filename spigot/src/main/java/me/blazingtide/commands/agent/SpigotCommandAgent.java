@@ -1,6 +1,5 @@
 package me.blazingtide.commands.agent;
 
-import com.sun.security.jgss.InquireSecContextPermission;
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.sub.SubCommand;
@@ -121,7 +120,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         }
 
         for (Label label : command.getLabels()) {
-            final BukkitCommand bukkitCommand = new BukkitCommand(label.getValue());
+            final BukkitCommand bukkitCommand = new BukkitCommand(label.getValue(), command);
 
             commandMap.register(SPIGOT_FALLBACK_PREFIX, bukkitCommand);
         }
