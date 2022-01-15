@@ -6,6 +6,7 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.exception.CommandException;
+import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 
@@ -126,6 +127,11 @@ public interface CommandAgent {
         //Capitalize the label str (for cosmetic purposes)
         final StringBuilder newLabelStr = new StringBuilder();
         final char[] chars = labelStr.toCharArray();
+
+        if (command.hasPermission() && !hasPermission(() -> senderObject, command.getPermission())) {
+            handleException(new CommandPermissionException(commandString, command.getPermission()), senderObject, command, labelStr);
+            return;
+        }
 
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
