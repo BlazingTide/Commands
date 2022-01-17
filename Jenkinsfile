@@ -8,6 +8,6 @@ node {
    }
 
    stage('Archive') {
-      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+      archiveArtifacts artifacts: 'spigot/target/*.jar', 'kotlin/target/*.jar', fingerprint: true
    }
 }
