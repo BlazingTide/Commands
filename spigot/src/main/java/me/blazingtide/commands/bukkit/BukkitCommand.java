@@ -85,7 +85,4 @@ public class BukkitCommand extends org.bukkit.command.Command {
         return false;
     }
 
-    public Command getCommand() {
-        return command;
-    }
 }
