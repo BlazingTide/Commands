@@ -35,7 +35,7 @@ public interface PermissionHolder {
      * @return has a permission linked
      */
     default boolean hasPermission() {
-        return getPermission() != null;
+        return getPermission() != null && !getPermission().isEmpty();
     }
 
 }
