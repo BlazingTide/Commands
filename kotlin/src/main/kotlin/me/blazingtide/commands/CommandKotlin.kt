@@ -49,6 +49,7 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
         if (sub._executor != null) {
             builder.execute { sub._executor?.let { it1 -> it1(it) } }
         }
+        builder.subcommand()
 
         command.subCommands.add(builder.create())
     }

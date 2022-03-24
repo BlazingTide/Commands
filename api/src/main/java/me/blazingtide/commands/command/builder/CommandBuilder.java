@@ -73,6 +73,14 @@ public interface CommandBuilder extends Cursor {
     CommandBuilder async();
 
     /**
+     * Marks this command as a subcommand.
+     * Doesn't inject or registers the command
+     *
+     * @return the command builder
+     */
+    CommandBuilder subcommand();
+
+    /**
      * Creates the command object.
      *
      * @return command

@@ -20,6 +20,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     private String usage = "";
     private String description = "";
     private String permission = "";
+    private boolean subcommand = false;
     private boolean async;
     private List<Command> subCommands = new ArrayList<>();
 
@@ -72,6 +73,12 @@ public class CommandBuilderImpl implements CommandBuilder {
     }
 
     @Override
+    public CommandBuilder subcommand() {
+        subcommand = !subcommand;
+        return this;
+    }
+
+    @Override
     public Command create() {
         if (labels.isEmpty()) {
             throw new NullPointerException("There were no labels specified.");
@@ -87,13 +94,15 @@ public class CommandBuilderImpl implements CommandBuilder {
                 subCommands
         );
 
-        final CommandService service = Commands.getCommandService();
+        if (!subcommand) {
+            final CommandService service = Commands.getCommandService();
 
-        service.getRepository().getCollection().add(command); //Stores the command
+            service.getRepository().getCollection().add(command); //Stores the command
 
-        //Injects the command
-        if (service.getAgent() instanceof CommandInjectionAgent) {
-            ((CommandInjectionAgent) service.getAgent()).inject(command);
+            //Injects the command
+            if (service.getAgent() instanceof CommandInjectionAgent) {
+                ((CommandInjectionAgent) service.getAgent()).inject(command);
+            }
         }
 
         return command;
