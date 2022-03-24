@@ -2,15 +2,15 @@ package me.blazingtide.commands.repository;
 
 import me.blazingtide.commands.command.Command;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class CommandRepositoryImpl implements CommandRepository<Command, List<Command>> {
+public class CommandRepositoryImpl implements CommandRepository<Command, Map<String, Command>> {
 
-    private final List<Command> commands = new ArrayList<>();
+    private final Map<String, Command> commands = new HashMap<>();
 
     @Override
-    public List<Command> getCollection() {
+    public Map<String, Command> getCollection() {
         return commands;
     }
 }

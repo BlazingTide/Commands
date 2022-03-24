@@ -97,7 +97,7 @@ public class CommandBuilderImpl implements CommandBuilder {
         if (!subcommand) {
             final CommandService service = Commands.getCommandService();
 
-            service.getRepository().getCollection().add(command); //Stores the command
+            service.getRepository().add(command); //Stores the command
 
             //Injects the command
             if (service.getAgent() instanceof CommandInjectionAgent) {

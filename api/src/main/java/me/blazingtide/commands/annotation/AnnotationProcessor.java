@@ -15,6 +15,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -37,30 +38,66 @@ public class AnnotationProcessor {
 
             final List<Class<?>> params = Arrays.stream(parameters).map(Parameter::getType).collect(Collectors.toList());
 
-            final Command command = new AnnotationCommand(
-                    createExecutor(parameters, method, object),
-                    Arrays.stream(annotation.labels()).map(Label::of).collect(Collectors.toList()),
-                    annotation.usage(),
-                    annotation.description(),
-                    annotation.permission(),
-                    annotation.async(),
-                    new ArrayList<>(),
-                    method,
-                    params);
+            for (String label : annotation.labels()) {
+                commands.add(processForLabel(label, params, parameters, method, object, annotation));
+            }
+        }
 
+        return commands;
+    }
+
+    private static Command processForLabel(String label, List<Class<?>> params, Parameter[] parameters, Method method, Object object, me.blazingtide.commands.annotation.Command annotation) {
+        final String[] split = label.split(" ");
+        boolean isSubCommand = split.length > 1;
+
+        final Command command = new AnnotationCommand(
+                createExecutor(parameters, method, object),
+                Arrays.stream(annotation.labels()).map(Label::of).collect(Collectors.toList()),
+                annotation.usage(),
+                annotation.description(),
+                annotation.permission(),
+                annotation.async(),
+                new ArrayList<>(),
+                method,
+                params);
+
+        //Determine if this is a sub command
+        if (!isSubCommand) {
             final CommandService service = Commands.getCommandService();
 
-            service.getRepository().getCollection().add(command); //Stores the command
+            service.getRepository().add(command); //Stores the command
 
             //Injects the command
             if (service.getAgent() instanceof CommandInjectionAgent) {
                 ((CommandInjectionAgent) service.getAgent()).inject(command);
             }
-
-            commands.add(command);
+        } else {
+            createParentCommands(label);
+            getParentCommand(label).ifPresent(command1 -> command1.getSubCommands().add(command1));
         }
 
-        return commands;
+        return command;
+    }
+
+    private static void createParentCommands(String label) {
+        final String[] split = label.split(" ");
+
+        final Command command = Commands.getCommandService().getRepository().getCollection().get(split[0]);
+
+        if (command != null) {
+            Commands.getCommandService().getRepository().add(command); //Override the command
+        } else {
+            Commands.begin()
+                    .label(split[0])
+                    .create();
+        }
+    }
+
+    private static Optional<Command> getParentCommand(String label) {
+        final String[] split = label.split(" ");
+        final String lastValue = split[split.length - 1];
+
+        return Optional.ofNullable(Commands.getCommandService().getRepository().getCollection().get(lastValue));
     }
 
     private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {

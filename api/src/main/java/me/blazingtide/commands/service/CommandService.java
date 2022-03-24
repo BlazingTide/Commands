@@ -16,7 +16,7 @@ public interface CommandService {
 
     CommandAgent getAgent();
 
-    <T extends Collection<Command>> CommandRepository<Command, T> getRepository();
+    <T extends Collection<Command>> CommandRepository<Command, Map<String, Command>> getRepository();
 
     Map<Class<?>, TypeAdapter<?>> getTypeAdapterMap();
 
