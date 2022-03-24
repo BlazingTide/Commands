@@ -8,14 +8,6 @@ You can download the library in releases or build it yourself. To use the librar
 pom.xml.
 
 ```xml
-
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
 <dependencies>
     <dependency>
         <groupId>me.blazingtide.commands</groupId>
@@ -28,9 +20,11 @@ pom.xml.
 
 ### Modules
 
-##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api) - The main api for the project (Complete)
+##### [`api`](https://github.com/BlazingTide/Commands/tree/master/api) - The main api for the project
 
-##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) - The spigot module for the project (Complete)
+##### [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) - The spigot module for the project
+
+##### [`kotlin`](https://github.com/BlazingTide/Commands/tree/master/kotlin) - A module for easy creation of commands via Kotlin
 
 ##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord) - The bungeecord module for the project (In-progress)
 
@@ -46,7 +40,32 @@ Commands.newInstance()
         .register();
 ```
 
-## Example
+## Annotation Example
+
+After multiple requests, this library now supports annotations. You can take advantage of this robust framework using
+annotations similar to other popular command frameworks.
+
+Below is an example of the same command built using annotations.
+
+```java
+@Command(labels = {"checkxp"}, permission = "command.checkxp", usage = "<player / self>", async = true)
+public void execute(CommandSender sender, @OptionalParam @PermissionParam("command.checkxp.other") Player target){
+        if(target==null){
+            if(!(sender instanceof Player)){
+                return;
+            }
+
+            final Player player=(Player)sender;
+
+            sender.sendMessage("Your XP: "+player.getExp());
+            return;
+        }
+
+        sender.sendMessage(target.getName()+"'s XP: "+target.getExp());
+}
+```
+
+## Legacy Example
 
 The library is simple to use but can be a bit difficult to understand at first. This is the most simplest example of a
 command that's used to check the experience of a player or yourself.
@@ -77,3 +96,4 @@ targetOptional.ifPresentOrElse(player->{
 
 checkXpCommand.cloneCommand().label("xp").create(); //Clones the same command but under a different label
 ```
+
