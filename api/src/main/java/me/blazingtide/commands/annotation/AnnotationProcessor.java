@@ -30,47 +30,15 @@ public class AnnotationProcessor {
 
             final Parameter[] parameters = method.getParameters();
 
-            if (parameters.length <= 0) {
+            if (parameters.length <= 1) {
                 Commands.getCommandService().getAgent().getLogger().severe("Invalid annotation command setup! Method is missing parameters. [" + Arrays.toString(annotation.labels()) + "]");
                 continue;
             }
 
             final List<Class<?>> params = Arrays.stream(parameters).map(Parameter::getType).collect(Collectors.toList());
 
-            final Consumer<CommandArguments> executor = commandArguments -> {
-                final Class<?> senderType = params.get(0);
-                final Object sender = commandArguments.sender(senderType);
-
-                final Object[] mappedParameters = new Object[parameters.length];
-                mappedParameters[0] = sender;
-
-                for (int i = 1; i < params.size(); i++) {
-                    Class<?> clazz = params.get(i);
-
-                    final NonNullArgumentCursor cursor = commandArguments.get(i - 1);
-                    final PermissionParam permissionAnnotation = parameters[i].getAnnotation(PermissionParam.class);
-                    final OptionalParam optionalAnnotation = parameters[i].getAnnotation(OptionalParam.class);
-
-                    if (permissionAnnotation != null) {
-                        cursor.permission(permissionAnnotation.value());
-                    }
-
-                    if (optionalAnnotation != null) {
-                        mappedParameters[i] = cursor.allowEmpty().as(clazz).orElse(null);
-                    } else {
-                        mappedParameters[i] = cursor.as(clazz);
-                    }
-                }
-
-                try {
-                    method.invoke(object, mappedParameters);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            };
-
             final Command command = new AnnotationCommand(
-                    executor,
+                    createExecutor(parameters, method, object),
                     Arrays.stream(annotation.labels()).map(Label::of).collect(Collectors.toList()),
                     annotation.usage(),
                     annotation.description(),
@@ -93,6 +61,40 @@ public class AnnotationProcessor {
         }
 
         return commands;
+    }
+
+    private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {
+        return commandArguments -> {
+            final Class<?> senderType = parameters[0].getType();
+            final Object sender = commandArguments.sender(senderType);
+
+            final Object[] mappedParameters = new Object[parameters.length];
+            mappedParameters[0] = sender;
+
+            for (int i = 1; i < parameters.length; i++) {
+                Class<?> clazz = parameters[i].getType();
+
+                final NonNullArgumentCursor cursor = commandArguments.get(i - 1);
+                final PermissionParam permissionAnnotation = parameters[i].getAnnotation(PermissionParam.class);
+                final OptionalParam optionalAnnotation = parameters[i].getAnnotation(OptionalParam.class);
+
+                if (permissionAnnotation != null) {
+                    cursor.permission(permissionAnnotation.value());
+                }
+
+                if (optionalAnnotation != null) {
+                    mappedParameters[i] = cursor.allowEmpty().as(clazz).orElse(null);
+                } else {
+                    mappedParameters[i] = cursor.as(clazz);
+                }
+            }
+
+            try {
+                method.invoke(object, mappedParameters);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        };
     }
 
 }
