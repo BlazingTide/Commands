@@ -50,18 +50,18 @@ Below is an example of the same command built using annotations.
 ```java
 @Command(labels = {"checkxp"}, permission = "command.checkxp", usage = "<player / self>", async = true)
 public void execute(CommandSender sender, @OptionalParam @PermissionParam("command.checkxp.other") Player target){
-        if(target==null){
+        if(target == null){
             if(!(sender instanceof Player)){
                 return;
             }
 
-            final Player player=(Player)sender;
+            final Player player = (Player) sender;
 
-            sender.sendMessage("Your XP: "+player.getExp());
+            sender.sendMessage("Your XP: " + player.getExp());
             return;
         }
 
-        sender.sendMessage(target.getName()+"'s XP: "+target.getExp());
+        sender.sendMessage(target.getName() + "'s XP: " + target.getExp());
 }
 ```
 
