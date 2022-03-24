@@ -3,7 +3,6 @@ package me.blazingtide.commands.bukkit;
 import com.google.common.collect.Lists;
 import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.label.Label;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,7 +30,7 @@ public class BukkitCommand extends org.bukkit.command.Command {
 
             final List<String> subCommands = Lists.newArrayList();
 
-            for (SubCommand subCommand : command.getSubCommands()) {
+            for (Command subCommand : command.getSubCommands()) {
                 subCommands.addAll(subCommand.getLabels()
                         .stream()
                         .map(Label::getValue)

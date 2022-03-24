@@ -3,8 +3,6 @@ package me.blazingtide.commands;
 import me.blazingtide.commands.adapter.TypeAdapter;
 import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.builder.CommandBuilderImpl;
-import me.blazingtide.commands.command.sub.builder.SubCommandBuilder;
-import me.blazingtide.commands.command.sub.builder.SubCommandBuilderImpl;
 import me.blazingtide.commands.service.CommandService;
 import me.blazingtide.commands.service.CommandServiceBuilder;
 import me.blazingtide.commands.service.CommandServiceBuilderImpl;
@@ -15,10 +13,6 @@ public class Commands {
 
     public static CommandBuilder begin() {
         return new CommandBuilderImpl();
-    }
-
-    public static SubCommandBuilder subCommand() {
-        return new SubCommandBuilderImpl();
     }
 
     public static CommandServiceBuilder newInstance() {

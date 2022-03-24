@@ -2,7 +2,6 @@ package me.blazingtide.commands.agent;
 
 import me.blazingtide.commands.bukkit.BukkitCommand;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
@@ -81,7 +80,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
 
         sender.sendMessage(" ");
         sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + label + " Help:");
-        for (SubCommand subCommand : command.getSubCommands()) {
+        for (Command subCommand : command.getSubCommands()) {
             final String arg = subCommand.getLabels()
                     .stream()
                     .map(Label::getValue)

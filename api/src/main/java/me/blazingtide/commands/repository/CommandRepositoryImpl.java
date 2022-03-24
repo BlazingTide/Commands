@@ -5,7 +5,7 @@ import me.blazingtide.commands.command.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicCommandRepository implements CommandRepository<Command, List<Command>> {
+public class CommandRepositoryImpl implements CommandRepository<Command, List<Command>> {
 
     private final List<Command> commands = new ArrayList<>();
 

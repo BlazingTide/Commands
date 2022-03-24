@@ -4,7 +4,6 @@ import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.agent.CommandInjectionAgent;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.service.CommandService;
 
@@ -21,7 +20,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     private String description = "";
     private String permission = "";
     private boolean async;
-    private List<SubCommand> subCommands = new ArrayList<>();
+    private List<Command> subCommands = new ArrayList<>();
 
     @Override
     public CommandBuilder label(String label) {
@@ -52,7 +51,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     }
 
     @Override
-    public CommandBuilder subCommand(SubCommand subCommand) {
+    public CommandBuilder subCommand(Command subCommand) {
         Objects.requireNonNull(subCommand);
         this.subCommands.add(subCommand);
         return this;
@@ -107,7 +106,7 @@ public class CommandBuilderImpl implements CommandBuilder {
             }
 
             @Override
-            public List<SubCommand> getSubCommands() {
+            public List<Command> getSubCommands() {
                 return subCommands;
             }
 

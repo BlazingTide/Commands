@@ -2,7 +2,6 @@ package me.blazingtide.commands.command.builder;
 
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.cursor.Cursor;
 
 import java.util.function.Consumer;
@@ -64,7 +63,7 @@ public interface CommandBuilder extends Cursor {
      * @param subCommand the sub command
      * @return the command builder
      */
-    CommandBuilder subCommand(SubCommand subCommand);
+    CommandBuilder subCommand(Command subCommand);
 
     /**
      * Runs the executor provided in {@link #execute(Consumer)} asynchronously

@@ -21,7 +21,7 @@ public interface CommandRepository<E, T extends Collection<E>> {
      * @return the basic command repository
      */
     static <T extends Collection<Command>> CommandRepository<Command, List<Command>> basic() {
-        return new BasicCommandRepository();
+        return new CommandRepositoryImpl();
     }
 
     /**

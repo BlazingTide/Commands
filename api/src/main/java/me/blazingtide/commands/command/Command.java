@@ -3,12 +3,10 @@ package me.blazingtide.commands.command;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.builder.CommandBuilderImpl;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.permission.PermissionHolder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -69,11 +67,10 @@ public interface Command extends PermissionHolder {
 
     /**
      * A list of the subcommands this command contains.
-     * For more information on sub command see {@link SubCommand}
      *
      * @return map of subcommand
      */
-    List<SubCommand> getSubCommands();
+    List<Command> getSubCommands();
 
     /**
      * Clones the command and returns a new command builder
