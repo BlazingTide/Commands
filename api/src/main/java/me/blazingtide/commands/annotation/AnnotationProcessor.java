@@ -15,7 +15,6 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public class AnnotationProcessor {
 
             final Parameter[] parameters = method.getParameters();
 
-            if (parameters.length <= 1) {
+            if (parameters.length < 1) {
                 Commands.getCommandService().getAgent().getLogger().severe("Invalid annotation command setup! Method is missing parameters. [" + Arrays.toString(annotation.labels()) + "]");
                 continue;
             }
@@ -39,7 +38,7 @@ public class AnnotationProcessor {
             final List<Class<?>> params = Arrays.stream(parameters).map(Parameter::getType).collect(Collectors.toList());
 
             for (String label : annotation.labels()) {
-                commands.add(processForLabel(label, params, parameters, method, object, annotation));
+                commands.add(processForLabel(label.toLowerCase(), params, parameters, method, object, annotation));
             }
         }
 
@@ -52,14 +51,15 @@ public class AnnotationProcessor {
 
         final Command command = new AnnotationCommand(
                 createExecutor(parameters, method, object),
-                Arrays.stream(annotation.labels()).map(Label::of).collect(Collectors.toList()),
+                List.of(Label.of(split[split.length - 1])),
                 annotation.usage(),
                 annotation.description(),
                 annotation.permission(),
                 annotation.async(),
                 new ArrayList<>(),
                 method,
-                params);
+                params
+        );
 
         //Determine if this is a sub command
         if (!isSubCommand) {
@@ -72,32 +72,24 @@ public class AnnotationProcessor {
                 ((CommandInjectionAgent) service.getAgent()).inject(command);
             }
         } else {
-            createParentCommands(label);
-            getParentCommand(label).ifPresent(command1 -> command1.getSubCommands().add(command1));
+            final Command parent = createParentCommands(split);
+
+            parent.getSubCommands().add(command);
         }
 
         return command;
     }
 
-    private static void createParentCommands(String label) {
-        final String[] split = label.split(" ");
-
-        final Command command = Commands.getCommandService().getRepository().getCollection().get(split[0]);
+    private static Command createParentCommands(String[] labelSplit) {
+        final Command command = Commands.getCommandService().getRepository().getCollection().get(labelSplit[0]);
 
         if (command != null) {
-            Commands.getCommandService().getRepository().add(command); //Override the command
-        } else {
-            Commands.begin()
-                    .label(split[0])
-                    .create();
+            return command;
         }
-    }
 
-    private static Optional<Command> getParentCommand(String label) {
-        final String[] split = label.split(" ");
-        final String lastValue = split[split.length - 1];
-
-        return Optional.ofNullable(Commands.getCommandService().getRepository().getCollection().get(lastValue));
+        return Commands.begin()
+                .label(labelSplit[0])
+                .create();
     }
 
     private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {

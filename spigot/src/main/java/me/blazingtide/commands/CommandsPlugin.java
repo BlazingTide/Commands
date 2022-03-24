@@ -3,6 +3,7 @@ package me.blazingtide.commands;
 import me.blazingtide.commands.adapters.*;
 import me.blazingtide.commands.agent.SpigotCommandAgent;
 import me.blazingtide.commands.repository.CommandRepository;
+import me.blazingtide.commands.test.AnnotationTest;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +19,7 @@ public class CommandsPlugin extends JavaPlugin {
                 .register();
 
         registerDefaults();
+        Commands.registerAnnotations(new AnnotationTest());
     }
 
     private void registerDefaults() {
