@@ -48,7 +48,12 @@ public class AnnotationProcessor {
                     Class<?> clazz = params.get(i);
 
                     final NonNullArgumentCursor cursor = commandArguments.get(i - 1);
+                    final PermissionParam permissionAnnotation = parameters[i].getAnnotation(PermissionParam.class);
                     final OptionalParam optionalAnnotation = parameters[i].getAnnotation(OptionalParam.class);
+
+                    if (permissionAnnotation != null) {
+                        cursor.permission(permissionAnnotation.value());
+                    }
 
                     if (optionalAnnotation != null) {
                         mappedParameters[i] = cursor.allowEmpty().as(clazz).orElse(null);
