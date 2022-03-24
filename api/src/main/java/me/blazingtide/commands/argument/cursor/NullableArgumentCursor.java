@@ -38,18 +38,7 @@ public class NullableArgumentCursor implements ArgumentCursor {
     }
 
     public <T> Optional<T> as(Class<T> clazz) {
-        final CursorResult result = new CursorResult() {
-            @Override
-            public Label getLabel() {
-                return label;
-            }
-
-            @Override
-            public String getPermission() {
-                return permission;
-            }
-        };
-
+        final CursorResult result = CursorResult.of(label, permission);
         final T mapped = runChecks(index, clazz, commandArguments.getCommandString(), commandArguments.getSender(), commandArguments, result);
 
         return mapped == null ? Optional.empty() : Optional.of(mapped);
@@ -65,6 +54,11 @@ public class NullableArgumentCursor implements ArgumentCursor {
         this.permission = permission;
 
         return this;
+    }
+
+    @Override
+    public Label getLabel() {
+        return label;
     }
 
 }

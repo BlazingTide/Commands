@@ -1,15 +1,23 @@
 package me.blazingtide.commands;
 
 import me.blazingtide.commands.adapter.TypeAdapter;
+import me.blazingtide.commands.annotation.AnnotationProcessor;
+import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.service.CommandService;
 import me.blazingtide.commands.service.CommandServiceBuilder;
 import me.blazingtide.commands.service.CommandServiceBuilderImpl;
 
+import java.util.List;
+
 public class Commands {
 
     private static CommandService commandService;
+
+    public static List<Command> registerAnnotations(Object object) {
+        return AnnotationProcessor.createCommands(object);
+    }
 
     public static CommandBuilder begin() {
         return new CommandBuilderImpl();

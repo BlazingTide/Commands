@@ -4,7 +4,6 @@ import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.argument.Argument;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.sub.SubCommand;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.label.Label;
@@ -13,6 +12,7 @@ import me.blazingtide.commands.sender.Sender;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +51,15 @@ public interface CommandAgent {
      * @return has permission
      */
     boolean hasPermission(Sender sender, String permission);
+
+    /**
+     * This API requires a valid logger to function correctly.
+     * There's quite a few pitfalls that might befall future developers
+     * thus, loggers are quite important.
+     *
+     * @return a logger
+     */
+    Logger getLogger();
 
     /**
      * Called whenever a command is executed.
@@ -96,7 +105,7 @@ public interface CommandAgent {
             String subCommandLabel = arguments[0];
 
             //A list of all the sub commands registered to the subCommandLabel
-            final List<SubCommand> collect = command.getSubCommands()
+            final List<Command> collect = command.getSubCommands()
                     .stream()
                     .filter(sub -> sub.getLabels().stream().anyMatch(l1 -> l1.getValue().equalsIgnoreCase(subCommandLabel)))
                     .collect(Collectors.toList());

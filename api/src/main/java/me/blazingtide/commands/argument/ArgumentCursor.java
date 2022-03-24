@@ -36,6 +36,8 @@ public interface ArgumentCursor extends Cursor {
      */
     ArgumentCursor permission(String permission);
 
+    Label getLabel();
+
     /**
      * Checks whether an argument is valid or not
      * <p>

@@ -30,7 +30,7 @@ inline fun command(builder: KCommandBuilder.() -> Unit): Command {
     for (subCommand in conf.subCommands) {
         val sub = KCommandBuilder().apply(subCommand)
 
-        val builder = Commands.subCommand()
+        val builder = Commands.begin()
             .label(sub._label)
 
         if (sub._permission != null) {

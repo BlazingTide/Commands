@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class IntegerTypeAdapter implements TypeAdapter<Integer> {
     @Override
     public Integer process(Label label) {
@@ -19,5 +21,10 @@ public class IntegerTypeAdapter implements TypeAdapter<Integer> {
         CommandSender commandSender = (CommandSender) sender.getSenderObject();
 
         commandSender.sendMessage(ChatColor.RED + given + " is not a valid number.");
+    }
+
+    @Override
+    public List<Integer> getAutoComplete(String input) {
+        return null;
     }
 }

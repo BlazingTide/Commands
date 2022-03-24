@@ -36,17 +36,7 @@ public class NonNullArgumentCursor implements ArgumentCursor {
     }
 
     public <T> T as(Class<T> clazz) {
-        final CursorResult result = new CursorResult() {
-            @Override
-            public Label getLabel() {
-                return label;
-            }
-
-            @Override
-            public String getPermission() {
-                return permission;
-            }
-        };
+        final CursorResult result = CursorResult.of(label, permission);
 
         return runChecks(index, clazz, commandArguments.getCommandString(), commandArguments.getSender(), commandArguments, result);
     }
@@ -61,6 +51,11 @@ public class NonNullArgumentCursor implements ArgumentCursor {
         this.permission = permission;
 
         return this;
+    }
+
+    @Override
+    public Label getLabel() {
+        return label;
     }
 
 }

@@ -7,4 +7,18 @@ public interface CursorResult extends PermissionHolder {
 
     Label getLabel();
 
+    static CursorResult of(Label label, String permission) {
+        return new CursorResult() {
+            @Override
+            public Label getLabel() {
+                return label;
+            }
+
+            @Override
+            public String getPermission() {
+                return permission;
+            }
+        };
+    }
+
 }

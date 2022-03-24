@@ -2,8 +2,10 @@ package me.blazingtide.commands;
 
 import me.blazingtide.commands.adapters.*;
 import me.blazingtide.commands.agent.SpigotCommandAgent;
+import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.repository.CommandRepository;
+import me.blazingtide.commands.test.AnnotationTest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +24,7 @@ public class CommandsPlugin extends JavaPlugin {
                 .register();
 
         registerDefaults();
-//        registerTest();
+        registerTest();
     }
 
     private void registerDefaults() {
@@ -34,6 +36,8 @@ public class CommandsPlugin extends JavaPlugin {
     }
 
     private void registerTest() {
+        Commands.registerAnnotations(new AnnotationTest());
+
         final Command checkXpCommand = Commands.begin()
                 .label("checkxp") //Set's the label for the command
                 .permission("command.checkxp") //Set's the base permission to use the command
@@ -41,7 +45,7 @@ public class CommandsPlugin extends JavaPlugin {
                 .async() //Runs the executor asynchronously
                 .execute((arguments) -> { //Executes the command
                     final Optional<Player> targetOptional = arguments.get(0)
-                            .allowEmpty() //Allows the argument to be empty and will change the return signature to Optional<Type>
+                            .allowEmpty() //Allows the argument to be empty and will change the return signature to OptionalParam<Type>
                             .permission("command.checkxp.other") //Checks if the argument is supplied that the player has permission to perform this command
                             .as(Player.class); //Checks whether an argument is supplied and checks if the argument is a Spigot Player
 
