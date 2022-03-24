@@ -26,7 +26,7 @@ public class BukkitCommand extends org.bukkit.command.Command {
 
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
-        if (!command.getSubCommands().isEmpty()) {
+        if (!command.getSubCommands().isEmpty() && args.length <= 1) {
             Optional<String> lastWords = args.length == 0 ? Optional.empty() : Optional.of(args[0]);
 
             final List<String> subCommands = Lists.newArrayList();
