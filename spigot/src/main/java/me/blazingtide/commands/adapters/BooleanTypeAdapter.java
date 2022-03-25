@@ -1,15 +1,14 @@
 package me.blazingtide.commands.adapters;
 
 import me.blazingtide.commands.adapter.TypeAdapter;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class BooleanTypeAdapter implements TypeAdapter<Boolean> {
     @Override
-    public Boolean process(Label label) {
-        return Boolean.valueOf(label.getValue());
+    public Boolean process(String label) {
+        return Boolean.valueOf(label);
     }
 
     @Override

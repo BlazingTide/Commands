@@ -3,7 +3,6 @@ package me.blazingtide.commands.bukkit;
 import com.google.common.collect.Lists;
 import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.label.Label;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -33,8 +32,7 @@ public class BukkitCommand extends org.bukkit.command.Command {
             for (Command subCommand : command.getSubCommands()) {
                 subCommands.addAll(subCommand.getLabels()
                         .stream()
-                        .map(Label::getValue)
-                        .filter(str -> !lastWords.isPresent() || StringUtil.startsWithIgnoreCase(str, lastWords.get()))
+                        .filter(str -> lastWords.isEmpty() || StringUtil.startsWithIgnoreCase(str, lastWords.get()))
                         .collect(Collectors.toList()));
             }
 

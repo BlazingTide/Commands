@@ -1,7 +1,5 @@
 package me.blazingtide.commands.argument;
 
-import me.blazingtide.commands.label.Label;
-
 /**
  * This class represents each argument supplied by the user when a command is ran.
  */
@@ -16,7 +14,7 @@ public interface Argument {
 //    boolean allowEmpty();
 
     /**
-     * Returns the Label of the argument
+     * Returns the String of the argument
      * when the command is supplied.
      *
      * <p>
@@ -25,6 +23,6 @@ public interface Argument {
      *
      * @return the argument's label
      */
-    Label getLabel();
+    String getLabel();
 
 }

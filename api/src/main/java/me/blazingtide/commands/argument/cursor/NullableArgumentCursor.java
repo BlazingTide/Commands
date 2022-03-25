@@ -3,7 +3,6 @@ package me.blazingtide.commands.argument.cursor;
 import me.blazingtide.commands.argument.ArgumentCursor;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.CursorResult;
-import me.blazingtide.commands.label.Label;
 
 import java.util.Optional;
 
@@ -11,7 +10,7 @@ public class NullableArgumentCursor implements ArgumentCursor {
 
     private final int index;
     private final CommandArguments commandArguments;
-    private final Label label;
+    private final String label;
     private String permission;
 
     /**
@@ -22,7 +21,7 @@ public class NullableArgumentCursor implements ArgumentCursor {
      * @param commandArguments the command arguments object
      * @param label            the label for the argument
      */
-    protected NullableArgumentCursor(int index, CommandArguments commandArguments, Label label) {
+    protected NullableArgumentCursor(int index, CommandArguments commandArguments, String label) {
         this.index = index;
         this.commandArguments = commandArguments;
         this.label = label;
@@ -34,7 +33,7 @@ public class NullableArgumentCursor implements ArgumentCursor {
      * @return the new cursor object
      */
     public static NullableArgumentCursor create(int index, CommandArguments arguments, String label) {
-        return new NullableArgumentCursor(index, arguments, Label.of(label));
+        return new NullableArgumentCursor(index, arguments, label);
     }
 
     public <T> Optional<T> as(Class<T> clazz) {
@@ -57,7 +56,7 @@ public class NullableArgumentCursor implements ArgumentCursor {
     }
 
     @Override
-    public Label getLabel() {
+    public String getLabel() {
         return label;
     }
 

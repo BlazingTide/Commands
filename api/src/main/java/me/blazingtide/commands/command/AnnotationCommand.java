@@ -1,7 +1,6 @@
 package me.blazingtide.commands.command;
 
 import me.blazingtide.commands.argument.CommandArguments;
-import me.blazingtide.commands.label.Label;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.function.Consumer;
 public class AnnotationCommand implements Command {
 
     private final Consumer<CommandArguments> executor;
-    private final List<Label> labels;
+    private final List<String> labels;
     private final String usage;
     private final String description;
     private final String permission;
@@ -20,7 +19,7 @@ public class AnnotationCommand implements Command {
     private final Method method;
     private final List<Class<?>> parameters;
 
-    public AnnotationCommand(Consumer<CommandArguments> executor, List<Label> labels, String usage, String description, String permission, boolean async, List<Command> subCommands, Method method, List<Class<?>> parameters) {
+    public AnnotationCommand(Consumer<CommandArguments> executor, List<String> labels, String usage, String description, String permission, boolean async, List<Command> subCommands, Method method, List<Class<?>> parameters) {
         this.executor = executor;
         this.labels = labels;
         this.usage = usage;
@@ -38,7 +37,7 @@ public class AnnotationCommand implements Command {
     }
 
     @Override
-    public List<Label> getLabels() {
+    public List<String> getLabels() {
         return labels;
     }
 

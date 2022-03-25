@@ -3,13 +3,12 @@ package me.blazingtide.commands.argument.cursor;
 import me.blazingtide.commands.argument.ArgumentCursor;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.CursorResult;
-import me.blazingtide.commands.label.Label;
 
 public class NonNullArgumentCursor implements ArgumentCursor {
 
     private final int index;
     private final CommandArguments commandArguments;
-    private final Label label;
+    private final String label;
     private String permission;
 
     /**
@@ -20,7 +19,7 @@ public class NonNullArgumentCursor implements ArgumentCursor {
      * @param commandArguments the command arguments object
      * @param label            the label for the argument
      */
-    protected NonNullArgumentCursor(int index, CommandArguments commandArguments, Label label) {
+    protected NonNullArgumentCursor(int index, CommandArguments commandArguments, String label) {
         this.index = index;
         this.commandArguments = commandArguments;
         this.label = label;
@@ -32,7 +31,7 @@ public class NonNullArgumentCursor implements ArgumentCursor {
      * @return the new cursor object
      */
     public static NonNullArgumentCursor create(int index, CommandArguments arguments, String label) {
-        return new NonNullArgumentCursor(index, arguments, Label.of(label));
+        return new NonNullArgumentCursor(index, arguments, label);
     }
 
     public <T> T as(Class<T> clazz) {
@@ -43,7 +42,7 @@ public class NonNullArgumentCursor implements ArgumentCursor {
 
     @Override
     public NullableArgumentCursor allowEmpty() {
-        return NullableArgumentCursor.create(index, commandArguments, label.getValue()).permission(permission);
+        return NullableArgumentCursor.create(index, commandArguments, label).permission(permission);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class NonNullArgumentCursor implements ArgumentCursor {
     }
 
     @Override
-    public Label getLabel() {
+    public String getLabel() {
         return label;
     }
 

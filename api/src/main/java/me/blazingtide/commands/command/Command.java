@@ -3,7 +3,6 @@ package me.blazingtide.commands.command;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.builder.CommandBuilder;
 import me.blazingtide.commands.command.builder.CommandBuilderImpl;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.permission.PermissionHolder;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public interface Command extends PermissionHolder {
      *
      * @return the labels
      */
-    List<Label> getLabels();
+    List<String> getLabels();
 
     /**
      * Returns the usage for the command.
@@ -83,7 +82,7 @@ public interface Command extends PermissionHolder {
                 .permission(this.getPermission())
                 .execute(this.getExecutor());
 
-        this.getLabels().forEach(label -> builder.label(label.getValue()));
+        this.getLabels().forEach(builder::label);
 
         if (isAsync()) {
             builder.async();

@@ -1,19 +1,16 @@
 package me.blazingtide.commands.adapters;
 
 import me.blazingtide.commands.adapter.TypeAdapter;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class IntegerTypeAdapter implements TypeAdapter<Integer> {
     @Override
-    public Integer process(Label label) {
-        return Integer.valueOf(label.getValue());
+    public Integer process(String label) {
+        return Integer.valueOf(label);
     }
 
     @Override

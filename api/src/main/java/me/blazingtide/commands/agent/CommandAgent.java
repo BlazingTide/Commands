@@ -6,7 +6,6 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 
 import java.util.Arrays;
@@ -97,7 +96,7 @@ public interface CommandAgent {
             //A list of all the sub commands registered to the subCommandLabel
             final List<Command> collect = command.getSubCommands()
                     .stream()
-                    .filter(sub -> sub.getLabels().stream().anyMatch(l1 -> l1.getValue().equalsIgnoreCase(subCommandLabel)))
+                    .filter(sub -> sub.getLabels().stream().anyMatch(l1 -> l1.equalsIgnoreCase(subCommandLabel)))
                     .collect(Collectors.toList());
 
             if (!collect.isEmpty()) {
@@ -151,7 +150,7 @@ public interface CommandAgent {
 
         for (int i = 0; i < stringArguments.length; i++) {
             final String str = stringArguments[i];
-            final Argument argument = () -> Label.of(str);
+            final Argument argument = () -> str;
 
             arguments[i] = argument;
         }

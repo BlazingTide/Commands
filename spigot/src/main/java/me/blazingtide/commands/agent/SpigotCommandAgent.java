@@ -8,7 +8,6 @@ import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
 import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
 import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundException;
 import me.blazingtide.commands.exception.sender.CommandSenderException;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -21,7 +20,6 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static me.blazingtide.commands.CommandsPlugin.SPIGOT_FALLBACK_PREFIX;
 
@@ -82,10 +80,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         sender.sendMessage(" ");
         sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + label + " Help:");
         for (Command subCommand : command.getSubCommands()) {
-            final String arg = subCommand.getLabels()
-                    .stream()
-                    .map(Label::getValue)
-                    .collect(Collectors.joining(","));
+            final String arg = String.join(",", subCommand.getLabels());
 
             String usage = "";
 
@@ -124,8 +119,8 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
             commandMap = getCommandMap();
         }
 
-        for (Label label : command.getLabels()) {
-            final BukkitCommand bukkitCommand = new BukkitCommand(label.getValue(), command);
+        for (String label : command.getLabels()) {
+            final BukkitCommand bukkitCommand = new BukkitCommand(label, command);
 
             commandMap.register(SPIGOT_FALLBACK_PREFIX, bukkitCommand);
         }

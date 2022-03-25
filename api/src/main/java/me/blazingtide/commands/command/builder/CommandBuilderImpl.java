@@ -5,7 +5,6 @@ import me.blazingtide.commands.agent.CommandInjectionAgent;
 import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.command.CommandImpl;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.service.CommandService;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.function.Consumer;
 public class CommandBuilderImpl implements CommandBuilder {
 
     private Consumer<CommandArguments> executor;
-    private List<Label> labels = new ArrayList<>();
+    private List<String> labels = new ArrayList<>();
     private String usage = "";
     private String description = "";
     private String permission = "";
@@ -27,7 +26,7 @@ public class CommandBuilderImpl implements CommandBuilder {
     @Override
     public CommandBuilder label(String label) {
         Objects.requireNonNull(label);
-        this.labels.add(Label.of(label));
+        this.labels.add(label);
         return this;
     }
 

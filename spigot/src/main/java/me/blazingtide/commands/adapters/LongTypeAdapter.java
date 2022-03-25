@@ -1,15 +1,14 @@
 package me.blazingtide.commands.adapters;
 
 import me.blazingtide.commands.adapter.TypeAdapter;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class LongTypeAdapter implements TypeAdapter<Long> {
     @Override
-    public Long process(Label label) {
-        return Long.valueOf(label.getValue());
+    public Long process(String label) {
+        return Long.valueOf(label);
     }
 
     @Override

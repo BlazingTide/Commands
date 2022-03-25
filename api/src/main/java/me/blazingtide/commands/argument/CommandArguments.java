@@ -35,7 +35,7 @@ public interface CommandArguments {
     default NonNullArgumentCursor get(int index) throws CommandArgumentEmptyException, CommandArgumentCastException {
         final Argument argument = getArguments().length <= index ? null : getArguments()[index];
 
-        return NonNullArgumentCursor.create(index, this, argument == null ? null : argument.getLabel().getValue());
+        return NonNullArgumentCursor.create(index, this, argument == null ? null : argument.getLabel());
     }
 
     default <T> T sender(Class<T> clazz) {

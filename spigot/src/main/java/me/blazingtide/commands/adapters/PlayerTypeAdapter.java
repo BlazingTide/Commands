@@ -1,7 +1,6 @@
 package me.blazingtide.commands.adapters;
 
 import me.blazingtide.commands.adapter.TypeAdapter;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,8 +9,8 @@ import org.bukkit.entity.Player;
 
 public class PlayerTypeAdapter implements TypeAdapter<Player> {
     @Override
-    public Player process(Label label) {
-        return Bukkit.getPlayer(label.getValue());
+    public Player process(String label) {
+        return Bukkit.getPlayer(label);
     }
 
     @Override

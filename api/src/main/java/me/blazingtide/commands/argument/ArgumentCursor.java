@@ -9,7 +9,6 @@ import me.blazingtide.commands.exception.CommandPermissionException;
 import me.blazingtide.commands.exception.argument.CommandArgumentCastException;
 import me.blazingtide.commands.exception.argument.CommandArgumentEmptyException;
 import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundException;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.sender.Sender;
 
 /**
@@ -36,7 +35,7 @@ public interface ArgumentCursor extends Cursor {
      */
     ArgumentCursor permission(String permission);
 
-    Label getLabel();
+    String getLabel();
 
     /**
      * Checks whether an argument is valid or not
@@ -71,8 +70,8 @@ public interface ArgumentCursor extends Cursor {
         }
 
         final Argument argument = arguments.getArguments()[index];
-        final Label label = argument.getLabel();
-        final String labelString = label.getValue();
+        final String label = argument.getLabel();
+        final String labelString = label;
 
         if (!Commands.getCommandService().getTypeAdapterMap().containsKey(clazz)) {
             throw new CommandArgumentTypeNotFoundException(commandString, labelString, clazz);
@@ -89,7 +88,7 @@ public interface ArgumentCursor extends Cursor {
         }
     }
 
-    default Object transformArgument(Label label, TypeAdapter<?> adapter) {
+    default Object transformArgument(String label, TypeAdapter<?> adapter) {
         final Object object = adapter.process(label);
 
         if (object == null) {

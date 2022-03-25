@@ -1,16 +1,15 @@
 package me.blazingtide.commands.argument;
 
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.permission.PermissionHolder;
 
 public interface CursorResult extends PermissionHolder {
 
-    Label getLabel();
+    String getLabel();
 
-    static CursorResult of(Label label, String permission) {
+    static CursorResult of(String label, String permission) {
         return new CursorResult() {
             @Override
-            public Label getLabel() {
+            public String getLabel() {
                 return label;
             }
 

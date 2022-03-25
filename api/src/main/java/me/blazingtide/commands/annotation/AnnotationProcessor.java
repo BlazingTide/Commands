@@ -6,7 +6,6 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.label.Label;
 import me.blazingtide.commands.service.CommandService;
 
 import java.lang.reflect.InvocationTargetException;
@@ -51,7 +50,7 @@ public class AnnotationProcessor {
 
         final Command command = new AnnotationCommand(
                 createExecutor(parameters, method, object),
-                List.of(Label.of(split[split.length - 1])),
+                List.of(split[split.length - 1]),
                 annotation.usage(),
                 annotation.description(),
                 annotation.permission(),
@@ -72,7 +71,7 @@ public class AnnotationProcessor {
                 ((CommandInjectionAgent) service.getAgent()).inject(command);
             }
         } else {
-            final Command parent = createParentCommands(split);
+            final Command parent = traverse(split, 0, null);
 
             parent.getSubCommands().add(command);
         }
@@ -80,7 +79,25 @@ public class AnnotationProcessor {
         return command;
     }
 
-    private static Command createParentCommands(String[] labelSplit) {
+    private static Command traverse(String[] label, int index, Command parent) {
+        if (parent == null || index == 0) {
+            return traverse(label, 1, createPrimaryParent(label));
+        }
+
+        if (index == label.length) {
+            return parent; //Final parent
+        }
+
+        for (Command subCommand : parent.getSubCommands()) {
+            if (subCommand.getLabels().contains(label[index])) {
+                return traverse(label, ++index, subCommand);
+            }
+        }
+
+        return parent;
+    }
+
+    private static Command createPrimaryParent(String[] labelSplit) {
         final Command command = Commands.getCommandService().getRepository().getCollection().get(labelSplit[0]);
 
         if (command != null) {

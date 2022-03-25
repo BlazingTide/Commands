@@ -1,7 +1,6 @@
 package me.blazingtide.commands.repository;
 
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.label.Label;
 
 import java.util.Collection;
 import java.util.Map;
@@ -38,8 +37,8 @@ public interface CommandRepository<E extends Command, T extends Map<String, E>> 
      * @param object object to add
      */
     default void add(E object) {
-        for (Label label : object.getLabels()) {
-            getCollection().put(label.getValue(), object);
+        for (String label : object.getLabels()) {
+            getCollection().put(label, object);
         }
     }
 
