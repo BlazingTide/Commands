@@ -84,17 +84,24 @@ public class AnnotationProcessor {
             return traverse(label, 1, createPrimaryParent(label));
         }
 
-        if (index == label.length) {
+        if (index == label.length - 1) {
             return parent; //Final parent
         }
 
         for (Command subCommand : parent.getSubCommands()) {
             if (subCommand.getLabels().contains(label[index])) {
-                return traverse(label, ++index, subCommand);
+                return traverse(label, index + 1, subCommand);
             }
         }
 
-        return parent;
+        final Command sub = Commands.begin()
+                .label(label[index])
+                .subcommand()
+                .create();
+
+        parent.getSubCommands().add(sub);
+
+        return traverse(label, index + 1, sub);
     }
 
     private static Command createPrimaryParent(String[] labelSplit) {
