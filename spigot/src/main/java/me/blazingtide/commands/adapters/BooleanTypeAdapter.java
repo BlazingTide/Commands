@@ -5,6 +5,8 @@ import me.blazingtide.commands.sender.Sender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
+
 public class BooleanTypeAdapter implements TypeAdapter<Boolean> {
     @Override
     public Boolean process(String label) {
@@ -16,5 +18,10 @@ public class BooleanTypeAdapter implements TypeAdapter<Boolean> {
         CommandSender commandSender = (CommandSender) sender.getSenderObject();
 
         commandSender.sendMessage(ChatColor.RED + given + " is not a valid boolean.");
+    }
+
+    @Override
+    public List<String> getAutoComplete(String input) {
+        return List.of("true", "false");
     }
 }
