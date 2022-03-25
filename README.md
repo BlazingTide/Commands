@@ -1,4 +1,4 @@
-# Commands [![](https://jitci.com/gh/BlazingTide/Commands/svg)](https://jitci.com/gh/BlazingTide/Commands)
+# Commands
 
 The command library made for all Java-based applications.
 

@@ -9,8 +9,8 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BukkitCommand extends org.bukkit.command.Command {
@@ -24,24 +24,47 @@ public class BukkitCommand extends org.bukkit.command.Command {
 
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
-        if (!command.getSubCommands().isEmpty() && args.length <= 1) {
-            Optional<String> lastWords = args.length == 0 ? Optional.empty() : Optional.of(args[0]);
+        final String lastWords = args.length == 0 ? "" : args[args.length - 1];
+        final String[] arguments = new String[args.length + 1];
+        arguments[0] = alias;
+        System.arraycopy(args, 0, arguments, 1, args.length);
 
+        final Command command = args.length <= 1 ? this.command : traverse(arguments, 0, this.command);
+
+        if (command != null) {
             final List<String> subCommands = Lists.newArrayList();
 
-            for (Command subCommand : command.getSubCommands()) {
-                subCommands.addAll(subCommand.getLabels()
-                        .stream()
-                        .filter(str -> lastWords.isEmpty() || StringUtil.startsWithIgnoreCase(str, lastWords.get()))
-                        .collect(Collectors.toList()));
+            final List<List<String>> labels = command.getSubCommands()
+                    .stream()
+                    .map(Command::getLabels)
+                    .collect(Collectors.toList());
+
+            labels.forEach(strings -> subCommands.addAll(strings.stream().filter(str -> StringUtil.startsWithIgnoreCase(str, lastWords)).collect(Collectors.toList())));
+
+            if (!subCommands.isEmpty()) {
+                subCommands.sort(String.CASE_INSENSITIVE_ORDER);
+
+                return subCommands;
             }
-
-            subCommands.sort(String.CASE_INSENSITIVE_ORDER);
-
-            return subCommands;
         }
 
         return defaultTabComplete(sender, args);
+    }
+
+    private static Command traverse(String[] label, int index, Command parent) {
+        final String argument = label[index].trim();
+
+        if (index == label.length - 1 || argument.isBlank()) {
+            return parent; //Final parent
+        }
+
+        for (Command subCommand : parent.getSubCommands()) {
+            if (subCommand.getLabels().contains(argument)) {
+                return traverse(label, index + 1, subCommand);
+            }
+        }
+
+        return parent;
     }
 
     /**
