@@ -4,8 +4,6 @@ import me.blazingtide.commands.permission.PermissionHolder;
 
 public interface CursorResult extends PermissionHolder {
 
-    String getLabel();
-
     static CursorResult of(String label, String permission) {
         return new CursorResult() {
             @Override
@@ -19,5 +17,7 @@ public interface CursorResult extends PermissionHolder {
             }
         };
     }
+
+    String getLabel();
 
 }

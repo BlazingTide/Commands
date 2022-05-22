@@ -9,7 +9,6 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,22 @@ public class BukkitCommand extends org.bukkit.command.Command {
     public BukkitCommand(String name, Command command) {
         super(name);
         this.command = command;
+    }
+
+    private static Command traverse(String[] label, int index, Command parent) {
+        final String argument = label[index].trim();
+
+        if (index == label.length - 1 || argument.isBlank()) {
+            return parent; //Final parent
+        }
+
+        for (Command subCommand : parent.getSubCommands()) {
+            if (subCommand.getLabels().contains(argument)) {
+                return traverse(label, index + 1, subCommand);
+            }
+        }
+
+        return parent;
     }
 
     @Override
@@ -49,22 +64,6 @@ public class BukkitCommand extends org.bukkit.command.Command {
         }
 
         return defaultTabComplete(sender, args);
-    }
-
-    private static Command traverse(String[] label, int index, Command parent) {
-        final String argument = label[index].trim();
-
-        if (index == label.length - 1 || argument.isBlank()) {
-            return parent; //Final parent
-        }
-
-        for (Command subCommand : parent.getSubCommands()) {
-            if (subCommand.getLabels().contains(argument)) {
-                return traverse(label, index + 1, subCommand);
-            }
-        }
-
-        return parent;
     }
 
     /**
