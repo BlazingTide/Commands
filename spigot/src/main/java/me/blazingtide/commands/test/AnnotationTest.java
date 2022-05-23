@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 public class AnnotationTest {
 
-    @Command(labels = {"test test t2"})
-    public void execute(Player player) {
-        player.sendMessage("YOU DID IT!");
+    @Command(labels = {"test stuff t2"})
+    public void execute(Player player, String test) {
+        player.sendMessage("YOU DID IT! " + test);
     }
 
 }

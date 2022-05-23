@@ -21,7 +21,7 @@ public class BooleanTypeAdapter implements TypeAdapter<Boolean> {
     }
 
     @Override
-    public List<String> getAutoComplete(String input) {
+    public List<String> getAutoComplete(String input, Sender sender) {
         return List.of("true", "false");
     }
 }

@@ -10,7 +10,7 @@ public interface TypeAdapter<T> {
 
     void onException(Sender sender, String given, Exception exception);
 
-    default List<String> getAutoComplete(String input) {
+    default List<String> getAutoComplete(String input, Sender sender) {
         return null;
     }
 

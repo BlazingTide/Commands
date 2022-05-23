@@ -23,7 +23,7 @@ public class IntegerTypeAdapter implements TypeAdapter<Integer> {
     }
 
     @Override
-    public List<String> getAutoComplete(String input) {
+    public List<String> getAutoComplete(String input, Sender sender) {
         final ArrayList<String> toReturn = Lists.newArrayList();
 
         for (int i = 0; i < 100; i++) {
