@@ -2,6 +2,8 @@ package me.blazingtide.commands.bukkit;
 
 import com.google.common.collect.Lists;
 import me.blazingtide.commands.Commands;
+import me.blazingtide.commands.adapter.TypeAdapter;
+import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.utils.Pair;
 import org.bukkit.command.CommandSender;
@@ -60,6 +62,32 @@ public class BukkitCommand extends org.bukkit.command.Command {
         return new Pair(parent, index);
     }
 
+    public List<String> getParameterAutoComplete(Command command, int depth, String[] args, String lastWords, CommandSender sender) {
+        int index = args.length - depth;
+
+        if (!(command instanceof AnnotationCommand)) {
+            return null;
+        }
+
+        final AnnotationCommand annotationCommand = (AnnotationCommand) command;
+
+        final List<Class<?>> parameters = annotationCommand.getParameters();
+
+        final Class<?> param = parameters.get(index >= parameters.size() ? parameters.size() - 1 : index);
+
+        if (param == null) {
+            return null; //Just fallback to default if this occurs, but it should never occur
+        }
+
+        final TypeAdapter<?> adapter = Commands.getCommandService().getTypeAdapterMap().getOrDefault(param, null);
+
+        if (adapter != null) {
+            return adapter.getAutoComplete(lastWords, () -> sender);
+        }
+
+        return null;
+    }
+
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         final String lastWords = args.length == 0 ? "" : args[args.length - 1];
@@ -75,7 +103,11 @@ public class BukkitCommand extends org.bukkit.command.Command {
         }
 
         if (command.getSubCommands().isEmpty()) {
+            final List<String> complete = getParameterAutoComplete(command, depth, args, lastWords, sender);
 
+            if (complete != null) {
+                autoComplete.addAll(complete);
+            }
         }
 
         if (!command.getSubCommands().isEmpty()) {
