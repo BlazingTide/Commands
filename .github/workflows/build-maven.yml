@@ -15,7 +15,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - run: mvn --batch-mode --update-snapshots verify
-      - run: mkdir staging && mkdir staging/spigot && mkdir staging/spigot && mkdir staging/velocity && cp spigot/target/*.jar staging/spigot && cp velocity/target/*.jar staging/velocity
+      - run: mkdir staging && mkdir staging/spigot && mkdir staging/velocity && cp spigot/target/*.jar staging/spigot && cp velocity/target/*.jar staging/velocity
       - uses: actions/upload-artifact@v3
         with:
           name: Commands-artifacts
