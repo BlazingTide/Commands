@@ -1,14 +1,14 @@
-package org.blazingtide.commands.model;
+package me.blazingtide.commands.model;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import me.blazingtide.commands.Commands;
+import me.blazingtide.commands.CommandsVelocityPlugin;
 import me.blazingtide.commands.autocomplete.AutoCompleteProvider;
 import me.blazingtide.commands.autocomplete.StringUtil;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.sender.Sender;
-import org.blazingtide.commands.CommandsVelocityPlugin;
 
 import java.util.ArrayList;
 import java.util.List;

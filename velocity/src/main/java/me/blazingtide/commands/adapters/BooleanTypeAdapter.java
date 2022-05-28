@@ -1,4 +1,4 @@
-package org.blazingtide.commands.adapters;
+package me.blazingtide.commands.adapters;
 
 import com.velocitypowered.api.command.CommandSource;
 import me.blazingtide.commands.adapter.TypeAdapter;

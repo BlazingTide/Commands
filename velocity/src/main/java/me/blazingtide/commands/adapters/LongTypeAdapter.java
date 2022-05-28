@@ -1,4 +1,4 @@
-package org.blazingtide.commands.adapters;
+package me.blazingtide.commands.adapters;
 
 import com.velocitypowered.api.command.CommandSource;
 import me.blazingtide.commands.adapter.TypeAdapter;
@@ -6,10 +6,10 @@ import me.blazingtide.commands.sender.Sender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-public class DoubleTypeAdapter implements TypeAdapter<Double> {
+public class LongTypeAdapter implements TypeAdapter<Long> {
     @Override
-    public Double process(String label) {
-        return Double.valueOf(label);
+    public Long process(String label) {
+        return Long.valueOf(label);
     }
 
     @Override

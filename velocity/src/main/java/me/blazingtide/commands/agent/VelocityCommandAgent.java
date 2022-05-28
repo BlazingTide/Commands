@@ -1,7 +1,6 @@
-package org.blazingtide.commands.agent;
+package me.blazingtide.commands.agent;
 
 import com.velocitypowered.api.command.CommandSource;
-import me.blazingtide.commands.agent.CommandInjectionAgent;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
@@ -14,8 +13,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.blazingtide.commands.CommandsVelocityPlugin;
-import org.blazingtide.commands.model.VelocityCommand;
+import me.blazingtide.commands.CommandsVelocityPlugin;
+import me.blazingtide.commands.model.VelocityCommand;
 
 import java.util.Locale;
 import java.util.Objects;
