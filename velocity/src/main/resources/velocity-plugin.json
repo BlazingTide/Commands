@@ -1,7 +1,7 @@
 {
   "id": "commands",
   "name": "Commands",
-  "version": "1.0",
+  "version": "${git.branch}-${git.commit.id.abbrev}",
   "url": "https://blazingtide.me",
   "authors": [
     "BlazingTide"
