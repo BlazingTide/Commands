@@ -1,0 +1,10 @@
+{
+  "id": "commands",
+  "name": "Commands",
+  "version": "1.0",
+  "url": "https://blazingtide.me",
+  "authors": [
+    "BlazingTide"
+  ],
+  "main": "me.blazingtide.commands.CommandsVelocityPlugin"
+}

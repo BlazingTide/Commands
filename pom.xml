@@ -12,6 +12,7 @@
         <module>api</module>
         <module>spigot</module>
         <module>kotlin</module>
+        <module>velocity</module>
     </modules>
 
     <properties>
