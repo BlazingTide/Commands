@@ -2,6 +2,7 @@ package me.blazingtide.commands
 
 import me.blazingtide.commands.command.Command
 
+@Deprecated(message = "Use @Command annotation framework")
 inline fun command(builder: KCommandBuilder.() -> Unit): Command {
     val conf = KCommandBuilder().apply(builder)
 
