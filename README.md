@@ -8,12 +8,23 @@ You can download the library in releases or build it yourself. To use the librar
 pom.xml.
 
 ```xml
+<!-- Spigot -->
 <dependencies>
     <dependency>
         <groupId>me.blazingtide.commands</groupId>
-        <artifactId>api</artifactId>
+        <artifactId>spigot</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <scope>compile</scope>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+
+<!-- Velocity -->
+<dependencies>
+    <dependency>
+        <groupId>me.blazingtide.commands</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
@@ -26,9 +37,9 @@ pom.xml.
 
 ##### [`kotlin`](https://github.com/BlazingTide/Commands/tree/master/kotlin) - A module for easy creation of commands via Kotlin
 
-##### [`bungeecord`](https://github.com/BlazingTide/Commands/tree/master/bungeecord) - The bungeecord module for the project (In-progress)
+##### [`velocity`](https://github.com/BlazingTide/Commands/tree/master/velocity) - The velocity module for the project
 
-## How to use
+## How to use (Standalone API)
 
 If you're not using any of the prebuilt plugins then this is how you register the api for usage. This example is used by
 the [`spigot`](https://github.com/BlazingTide/Commands/tree/master/spigot) plugin.
