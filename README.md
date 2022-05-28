@@ -1,6 +1,6 @@
-# Commands
+# Commands [<!--lint ignore no-dead-urls-->![GitHub Actions status | BlazingTide/Commands](https://github.com/BlazingTide/Commands/workflows/Maven%20Build/badge.svg)](https://github.com/sdras/awesome-actions/actions?workflow=Lint+Awesome+List)
 
-The command library made for all Java-based applications.
+> The command library made for all Java-based applications.
 
 ### Installation
 
