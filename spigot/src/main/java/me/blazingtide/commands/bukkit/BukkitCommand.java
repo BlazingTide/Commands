@@ -68,8 +68,4 @@ public class BukkitCommand extends org.bukkit.command.Command implements AutoCom
         return false;
     }
 
-    @Override
-    public boolean filterWorlds(String input, String lastWords) {
-        return StringUtil.startsWithIgnoreCase(input, lastWords);
-    }
 }

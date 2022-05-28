@@ -101,7 +101,7 @@ public interface AutoCompleteProvider {
             command.getSubCommands().forEach(sub -> autoComplete.addAll(sub.getLabels()));
         }
 
-        final List<String> toReturn = autoComplete.stream().filter(str -> filterWorlds(str, lastWords)).collect(Collectors.toList());
+        final List<String> toReturn = autoComplete.stream().filter(str -> StringUtil.startsWithIgnoreCase(str, lastWords)).collect(Collectors.toList());
 
         if (!toReturn.isEmpty()) {
             toReturn.sort(String.CASE_INSENSITIVE_ORDER);
@@ -112,6 +112,5 @@ public interface AutoCompleteProvider {
         return null;
     }
 
-    boolean filterWorlds(String input, String lastWords);
 
 }
