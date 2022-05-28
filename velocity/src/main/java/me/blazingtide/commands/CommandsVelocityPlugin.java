@@ -9,7 +9,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import me.blazingtide.commands.adapters.*;
 import me.blazingtide.commands.agent.VelocityCommandAgent;
 import me.blazingtide.commands.repository.CommandRepository;
-import org.blazingtide.commands.adapters.*;
 
 import java.util.logging.Logger;
 
