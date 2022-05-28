@@ -45,4 +45,8 @@ public interface Sender {
         return clazz.cast(object);
     }
 
+    static Sender of(Object object) {
+        return () -> object;
+    }
+
 }

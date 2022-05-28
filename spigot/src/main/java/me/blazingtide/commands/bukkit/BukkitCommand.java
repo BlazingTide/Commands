@@ -1,22 +1,18 @@
 package me.blazingtide.commands.bukkit;
 
-import com.google.common.collect.Lists;
 import me.blazingtide.commands.Commands;
-import me.blazingtide.commands.adapter.TypeAdapter;
-import me.blazingtide.commands.command.AnnotationCommand;
+import me.blazingtide.commands.autocomplete.AutoCompleteProvider;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.utils.Pair;
+import me.blazingtide.commands.sender.Sender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class BukkitCommand extends org.bukkit.command.Command {
+public class BukkitCommand extends org.bukkit.command.Command implements AutoCompleteProvider {
 
     private final Command command;
 
@@ -25,104 +21,11 @@ public class BukkitCommand extends org.bukkit.command.Command {
         this.command = command;
     }
 
-    private static Pair<Command, Integer> traverse(String[] arguments, int index, Command parent) {
-        //Don't worry about 0, it'll never be 0
-        if (arguments.length == 0) {
-            return null;
-        }
-
-        /*  binary tree model, makes it easier to visualize & test
-
-                            [root: 0, {''}]
-                        |           |
-                [sub command: 1, {'stuff', ''}]   [sub command]
-                    |
-               [sub command: 2, {'stuff', 't1', ''}]
-         */
-
-        //Root
-        if (arguments.length == 1) {
-            return new Pair(parent, index);
-        }
-
-        if (index + 1 == arguments.length) {
-            return new Pair(parent, index);
-        }
-
-        if (parent.getSubCommands().isEmpty()) {
-            return new Pair(parent, index);
-        }
-
-        for (Command subCommand : parent.getSubCommands()) {
-            if (subCommand.getLabels().stream().anyMatch(label -> label.equalsIgnoreCase(arguments[index]))) {
-                return traverse(arguments, index + 1, subCommand); //0: stuff
-            }
-        }
-
-        return new Pair(parent, index);
-    }
-
-    public List<String> getParameterAutoComplete(Command command, int depth, String[] args, String lastWords, CommandSender sender) {
-        int index = args.length - depth;
-
-        if (!(command instanceof AnnotationCommand)) {
-            return null;
-        }
-
-        final AnnotationCommand annotationCommand = (AnnotationCommand) command;
-
-        final List<Class<?>> parameters = annotationCommand.getParameters();
-
-        final Class<?> param = parameters.get(index >= parameters.size() ? parameters.size() - 1 : index);
-
-        if (param == null) {
-            return null; //Just fallback to default if this occurs, but it should never occur
-        }
-
-        final TypeAdapter<?> adapter = Commands.getCommandService().getTypeAdapterMap().getOrDefault(param, null);
-
-        if (adapter != null) {
-            return adapter.getAutoComplete(lastWords, () -> sender);
-        }
-
-        return null;
-    }
-
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
-        final String lastWords = args.length == 0 ? "" : args[args.length - 1];
+        final List<String> autoComplete = processInput(args, Sender.of(sender), command);
 
-        final Pair<Command, Integer> traverse = traverse(args, 0, command);
-        final Command command = traverse.first();
-        final Integer depth = traverse.second();
-
-        final List<String> autoComplete = Lists.newArrayList();
-
-        if (command == null) {
-            return Lists.newArrayList("error", "unknown", "tab complete");
-        }
-
-        if (command.getSubCommands().isEmpty()) {
-            final List<String> complete = getParameterAutoComplete(command, depth, args, lastWords, sender);
-
-            if (complete != null) {
-                autoComplete.addAll(complete);
-            }
-        }
-
-        if (!command.getSubCommands().isEmpty()) {
-            command.getSubCommands().forEach(sub -> autoComplete.addAll(sub.getLabels()));
-        }
-
-        final List<String> toReturn = autoComplete.stream().filter(str -> StringUtil.startsWithIgnoreCase(str, lastWords)).collect(Collectors.toList());
-
-        if (!toReturn.isEmpty()) {
-            toReturn.sort(String.CASE_INSENSITIVE_ORDER);
-
-            return toReturn;
-        }
-
-        return defaultTabComplete(sender, args);
+        return autoComplete != null ? autoComplete : defaultTabComplete(sender, args);
     }
 
     /**
@@ -165,4 +68,8 @@ public class BukkitCommand extends org.bukkit.command.Command {
         return false;
     }
 
+    @Override
+    public boolean filterWorlds(String input, String lastWords) {
+        return StringUtil.startsWithIgnoreCase(input, lastWords);
+    }
 }
