@@ -60,7 +60,9 @@ Below is an example of the same command built using annotations.
 
 ```java
 @Command(labels = {"checkxp"}, permission = "command.checkxp", usage = "<player / self>", async = true)
-public void execute(CommandSender sender, @AutoComplete({"BlazingTide", "Notch", "Hypixel"}) @OptionalParam @PermissionParam("command.checkxp.other") Player target){
+public void execute(CommandSender sender, @AutoComplete({"BlazingTide", "Notch", "Hypixel"}) 
+                                            @OptionalParam 
+                                            @PermissionParam("command.checkxp.other") Player target){
         if(target == null){
             if(!(sender instanceof Player)){
                 return;

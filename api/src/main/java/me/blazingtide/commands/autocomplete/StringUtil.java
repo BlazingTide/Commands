@@ -14,7 +14,7 @@ public class StringUtil {
 
         return collection;
     }
-
+    
     public static boolean startsWithIgnoreCase(String string, String prefix) throws IllegalArgumentException, NullPointerException {
         return string.length() >= prefix.length() && string.regionMatches(true, 0, prefix, 0, prefix.length());
     }
