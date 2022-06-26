@@ -2,6 +2,7 @@ package me.blazingtide.commands.autocomplete;
 
 import me.blazingtide.commands.Commands;
 import me.blazingtide.commands.adapter.TypeAdapter;
+import me.blazingtide.commands.annotation.AutoComplete;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.sender.Sender;
@@ -61,10 +62,18 @@ public interface AutoCompleteProvider {
 
         final List<Class<?>> parameters = annotationCommand.getParameters();
 
-        final Class<?> param = parameters.get(index >= parameters.size() ? parameters.size() - 1 : index);
+        var loc = index >= parameters.size() ? parameters.size() - 1 : index;
+        final Class<?> param = parameters.get(loc);
 
         if (param == null) {
+            System.out.println("Is null here");
             return null; //Just fallback to default if this occurs, but it should never occur
+        }
+
+        final AutoComplete autoCompleteAnnotation = annotationCommand.getMethod().getParameters()[loc].getAnnotation(AutoComplete.class);
+
+        if (autoCompleteAnnotation != null) {
+            return List.of(autoCompleteAnnotation.value());
         }
 
         final TypeAdapter<?> adapter = Commands.getCommandService().getTypeAdapterMap().getOrDefault(param, null);
@@ -72,6 +81,7 @@ public interface AutoCompleteProvider {
         if (adapter != null) {
             return adapter.getAutoComplete(lastWords, () -> sender);
         }
+
 
         return null;
     }
