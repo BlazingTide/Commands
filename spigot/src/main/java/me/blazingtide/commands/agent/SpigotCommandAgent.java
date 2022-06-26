@@ -122,6 +122,10 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         for (String label : command.getLabels()) {
             final BukkitCommand bukkitCommand = new BukkitCommand(label, command);
 
+            if (commandMap.getKnownCommands().containsKey(label)) {
+                commandMap.getKnownCommands().get(label).unregister(commandMap);
+            }
+
             commandMap.register(SPIGOT_FALLBACK_PREFIX, bukkitCommand);
         }
     }
