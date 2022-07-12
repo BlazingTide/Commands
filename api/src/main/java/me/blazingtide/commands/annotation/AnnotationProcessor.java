@@ -39,7 +39,7 @@ public class AnnotationProcessor {
             for (String label : annotation.labels()) {
                 if (parents != null) {
                     for (String parent : parents) {
-                        commands.add(processForLabel(parent + " " + label.toLowerCase(), params, parameters, method, object, annotation));
+                        commands.add(processForLabel((parent + " " + label.toLowerCase()).trim(), params, parameters, method, object, annotation));
                     }
                     continue;
                 }
