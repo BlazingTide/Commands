@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class AnnotationProcessor {
 
-    public static List<Command> createCommands(Object object) {
+    public static List<Command> createCommands(Object object, String[] parents) {
         final List<Command> commands = new ArrayList<>();
 
         for (Method method : object.getClass().getMethods()) {
@@ -37,6 +37,13 @@ public class AnnotationProcessor {
             final List<Class<?>> params = Arrays.stream(parameters).map(Parameter::getType).collect(Collectors.toList());
 
             for (String label : annotation.labels()) {
+                if (parents != null) {
+                    for (String parent : parents) {
+                        commands.add(processForLabel(parent + " " + label.toLowerCase(), params, parameters, method, object, annotation));
+                    }
+                    continue;
+                }
+
                 commands.add(processForLabel(label.toLowerCase(), params, parameters, method, object, annotation));
             }
         }

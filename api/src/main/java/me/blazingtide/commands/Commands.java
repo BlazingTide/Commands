@@ -16,7 +16,11 @@ public class Commands {
     private static CommandService commandService;
 
     public static List<Command> registerAnnotations(Object object) {
-        return AnnotationProcessor.createCommands(object);
+        return AnnotationProcessor.createCommands(object, null);
+    }
+
+    public static List<Command> registerAnnotations(Object object, String... parents) {
+        return AnnotationProcessor.createCommands(object, parents);
     }
 
     public static CommandBuilder begin() {
