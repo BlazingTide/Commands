@@ -82,7 +82,6 @@ public interface AutoCompleteProvider {
             return adapter.getAutoComplete(lastWords, () -> sender);
         }
 
-
         return null;
     }
 
