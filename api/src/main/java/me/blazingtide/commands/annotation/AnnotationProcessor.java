@@ -149,6 +149,18 @@ public class AnnotationProcessor {
                 }
             }
 
+            //If the last parameter type is a string then collect all the other strings in the rest of the argument
+            //and use that as a parameter rather than just that 1 word
+            if (parameters[parameters.length - 1].getType() == String.class && commandArguments.getArguments().length > parameters.length - 1) {
+                final StringBuilder builder = new StringBuilder();
+
+                for (int i = parameters.length - 2; i < commandArguments.getArguments().length; i++) {
+                    builder.append(commandArguments.getArguments()[i].getLabel()).append(" ");
+                }
+
+                mappedParameters[parameters.length - 1] = builder.toString().trim();
+            }
+
             try {
                 method.invoke(object, mappedParameters);
             } catch (IllegalAccessException | InvocationTargetException e) {

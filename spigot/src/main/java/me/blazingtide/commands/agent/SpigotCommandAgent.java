@@ -1,6 +1,7 @@
 package me.blazingtide.commands.agent;
 
 import me.blazingtide.commands.bukkit.BukkitCommand;
+import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
@@ -82,7 +83,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         sender.sendMessage(PRIMARY_COLOR + WordUtils.capitalize(label) + " Help");
         sender.sendMessage(ChatColor.WHITE + "All the subcommands of the command " + label + " are listed below.");
         sender.sendMessage(" ");
-        sender.sendMessage(ChatColor.GRAY + " - " + SECONDARY_COLOR + "/" + label + ChatColor.GRAY + ": Displays all subcommands");
+        sender.sendMessage(ChatColor.GRAY + " - " + SECONDARY_COLOR + "/" + label.toLowerCase(Locale.ROOT) + ChatColor.GRAY + ": Displays all subcommands");
         for (Command subCommand : command.getSubCommands()) {
             final String arg = String.join(",", subCommand.getLabels());
 

@@ -97,7 +97,7 @@ public interface CommandAgent {
             final List<Command> collect = command.getSubCommands()
                     .stream()
                     .filter(sub -> sub.getLabels().stream().anyMatch(l1 -> l1.equalsIgnoreCase(subCommandLabel)))
-                    .collect(Collectors.toList());
+                    .toList();
 
             if (!collect.isEmpty()) {
                 if (arguments.length == 1) {
