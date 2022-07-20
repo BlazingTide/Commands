@@ -79,7 +79,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
         final ChatColor SECONDARY_COLOR = ChatColor.of("#4ac24c");
 
         sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + ChatColor.STRIKETHROUGH + "-----------------------------");
-        sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + WordUtils.capitalize(label) + " Help:");
+        sender.sendMessage(PRIMARY_COLOR + WordUtils.capitalize(label) + " Help");
         sender.sendMessage(ChatColor.WHITE + "All the subcommands of the command " + label + " are listed below.");
         sender.sendMessage(" ");
         sender.sendMessage(ChatColor.GRAY + " - " + SECONDARY_COLOR + "/" + label + ChatColor.GRAY + ": Displays all subcommands");
