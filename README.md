@@ -13,7 +13,7 @@ pom.xml.
     <dependency>
         <groupId>me.blazingtide.commands</groupId>
         <artifactId>spigot</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -23,7 +23,7 @@ pom.xml.
     <dependency>
         <groupId>me.blazingtide.commands</groupId>
         <artifactId>velocity</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
