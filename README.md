@@ -59,22 +59,28 @@ annotations similar to other popular command frameworks.
 Below is an example of the same command built using annotations.
 
 ```java
-@Command(labels = {"checkxp"}, permission = "command.checkxp", usage = "<player / self>", async = true)
-public void execute(CommandSender sender, @AutoComplete({"BlazingTide", "Notch", "Hypixel"}) 
-                                            @OptionalParam 
-                                            @PermissionParam("command.checkxp.other") Player target){
-        if(target == null){
-            if(!(sender instanceof Player)){
-                return;
-            }
 
-            final Player player = (Player) sender;
-
-            sender.sendMessage("Your XP: " + player.getExp());
+// /give example
+@Command(labels = {"give"}, permission = "command.give", usage = "<item> <player>")
+public void execute(CommandSender sender, Material material, @PermissionParam("command.give.other") @OptionalParam Player target) { 
+    //Adding @OptionalParam on the last parameter allows that parameter to be nullable
+    //Adding @PermissionParam will require the sender to have that permission to use that parameter    
+    
+    if (target == null) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage("You must be a player to perform this command!")
             return;
         }
 
-        sender.sendMessage(target.getName() + "'s XP: " + target.getExp());
+        final Player player = (Player) sender;
+
+        player.getInventory().addItem(new ItemStack(material));
+        sender.sendMessage("You have received " + material);
+        return;
+    }
+    
+    target.getInventory().addItem(new ItemStack(material));
+    target.sendMessage("You have received " + material);
 }
 ```
 
