@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandsPlugin extends JavaPlugin {
 
-    public static final String SPIGOT_FALLBACK_PREFIX = "commands";
+    public static String SPIGOT_FALLBACK_PREFIX = "commands";
 
     @Override
     public void onEnable() {
@@ -18,6 +18,13 @@ public class CommandsPlugin extends JavaPlugin {
                 .register();
 
         registerDefaults();
+        processConfig();
+    }
+
+    private void processConfig() {
+        saveDefaultConfig();
+
+        SPIGOT_FALLBACK_PREFIX = getConfig().getString("default_fallback_prefix");
     }
 
     private void registerDefaults() {

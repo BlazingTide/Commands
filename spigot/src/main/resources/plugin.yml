@@ -2,3 +2,5 @@ name: Commands
 author: BlazingTide
 main: me.blazingtide.commands.CommandsPlugin
 version: ${git.branch}-${git.commit.id.abbrev}
+api-version: 1.18
+
