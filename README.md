@@ -78,7 +78,7 @@ public void execute(CommandSender sender, Material material, @PermissionParam("c
     
     if (target == null) {
         if(!(sender instanceof Player)){
-            sender.sendMessage("You must be a player to perform this command!")
+            sender.sendMessage("You must be a player to perform this command!");
             return;
         }
 
