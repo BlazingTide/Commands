@@ -80,7 +80,7 @@ public interface ArgumentCursor extends Cursor {
         final TypeAdapter<?> typeAdapter = Commands.getCommandService().getTypeAdapterMap().get(clazz);
 
         try {
-            return clazz.cast(transformArgument(label, typeAdapter));
+            return (T) transformArgument(label, typeAdapter);
         } catch (Exception e) {
             typeAdapter.onException(sender, labelString, e);
 
