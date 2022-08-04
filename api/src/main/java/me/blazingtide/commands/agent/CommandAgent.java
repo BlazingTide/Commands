@@ -11,7 +11,6 @@ import me.blazingtide.commands.sender.Sender;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Command agents are handlers that register the newly created commands.
@@ -39,6 +38,13 @@ public interface CommandAgent {
      * @param label     the label of the command
      */
     void handleException(CommandException exception, Object sender, Command command, String label);
+
+    /**
+     * Unregister commands linked to the given labels.
+     *
+     * @param labels the labels to unregister
+     */
+    void unregisterCommands(String... labels);
 
     /**
      * Checks whether a user has permission to perform

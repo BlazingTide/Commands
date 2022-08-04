@@ -71,6 +71,13 @@ public class VelocityCommandAgent implements CommandInjectionAgent {
     }
 
     @Override
+    public void unregisterCommands(String... labels) {
+        for (String label : labels) {
+            CommandsVelocityPlugin.get().getManager().unregister(label);
+        }
+    }
+
+    @Override
     public void sendHelp(Command command, Object senderObject, String label) {
         final CommandSource sender = (CommandSource) senderObject;
 

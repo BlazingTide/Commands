@@ -1,7 +1,6 @@
 package me.blazingtide.commands.agent;
 
 import me.blazingtide.commands.bukkit.BukkitCommand;
-import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.CommandException;
 import me.blazingtide.commands.exception.CommandPermissionException;
@@ -69,6 +68,17 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
 
         if (exception instanceof CommandArgumentCastException) {
 
+        }
+    }
+
+    @Override
+    public void unregisterCommands(String... labels) {
+        if (commandMap == null) {
+            commandMap = getCommandMap();
+        }
+
+        for (String label : labels) {
+            commandMap.getCommand(label).unregister(commandMap);
         }
     }
 
