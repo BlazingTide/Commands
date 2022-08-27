@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -80,6 +81,9 @@ public class AnnotationProcessor {
         } else {
             final Command parent = traverse(split, 0, null);
 
+            //Remove duplicate subcommands if they have the same labels & description, created for hot reloading plugins during runtime
+            parent.getSubCommands().removeIf(command1 -> new HashSet<>(command1.getLabels()).containsAll(command.getLabels()) && command1.getDescription().equals(command.getDescription()));
+
             parent.getSubCommands().add(command);
         }
 
@@ -106,6 +110,8 @@ public class AnnotationProcessor {
                 .subcommand()
                 .create();
 
+        //Remove duplicate subcommands if they have the same labels & description, created for hot reloading plugins during runtime
+        parent.getSubCommands().removeIf(command1 -> new HashSet<>(command1.getLabels()).containsAll(sub.getLabels()) && command1.getDescription().equals(sub.getDescription()));
         parent.getSubCommands().add(sub);
 
         return traverse(label, index + 1, sub);

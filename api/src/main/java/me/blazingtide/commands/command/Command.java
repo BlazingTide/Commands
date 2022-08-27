@@ -6,6 +6,7 @@ import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.permission.PermissionHolder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**

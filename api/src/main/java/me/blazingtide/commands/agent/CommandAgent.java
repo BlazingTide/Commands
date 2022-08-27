@@ -112,7 +112,7 @@ public interface CommandAgent {
                     arguments = Arrays.copyOfRange(arguments, 1, arguments.length);
                 }
                 final String[] finalArguments = arguments;
-                //Gotta do this continuously since we allow unlimited sub commands
+                //I've to do this continuously since we allow unlimited sub commands
                 labelStr += " " + subCommandLabel;
 
                 final String finalLabelStr = labelStr;
