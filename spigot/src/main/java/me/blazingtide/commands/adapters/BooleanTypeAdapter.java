@@ -15,9 +15,7 @@ public class BooleanTypeAdapter implements TypeAdapter<Boolean> {
 
     @Override
     public void onException(Sender sender, String given, Exception exception) {
-        CommandSender commandSender = (CommandSender) sender.getSenderObject();
-
-        commandSender.sendMessage(ChatColor.RED + given + " is not a valid boolean.");
+        sender.of(CommandSender.class).sendMessage(ChatColor.RED + given + " is not a valid boolean.");
     }
 
     @Override

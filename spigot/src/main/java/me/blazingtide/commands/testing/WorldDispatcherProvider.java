@@ -1,6 +1,6 @@
 package me.blazingtide.commands.testing;
 
-import me.blazingtide.commands.sender.dispatcher.Dispatcher;
+import me.blazingtide.commands.sender.Sender;
 import me.blazingtide.commands.sender.dispatcher.DispatcherProvider;
 import org.bukkit.entity.Player;
 
@@ -9,8 +9,8 @@ import java.util.Optional;
 public class WorldDispatcherProvider implements DispatcherProvider<WorldDispatcher> {
 
     @Override
-    public Optional<WorldDispatcher> provide(Dispatcher dispatcher) {
-        var player = dispatcher.value().of(Player.class);
+    public Optional<WorldDispatcher> provide(Sender sender) {
+        var player = sender.of(Player.class);
 
         if (player == null) return Optional.empty();
 

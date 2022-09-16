@@ -1,5 +1,7 @@
 package me.blazingtide.commands.sender.dispatcher;
 
+import me.blazingtide.commands.sender.Sender;
+
 import java.util.Optional;
 
 /**
@@ -7,6 +9,6 @@ import java.util.Optional;
  */
 public interface DispatcherProvider<T> {
 
-    Optional<T> provide(Dispatcher dispatcher);
+    Optional<T> provide(Sender sender);
 
 }

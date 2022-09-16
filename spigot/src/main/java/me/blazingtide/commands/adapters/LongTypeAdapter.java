@@ -13,8 +13,6 @@ public class LongTypeAdapter implements TypeAdapter<Long> {
 
     @Override
     public void onException(Sender sender, String given, Exception exception) {
-        CommandSender commandSender = (CommandSender) sender.getSenderObject();
-
-        commandSender.sendMessage(ChatColor.RED + given + " is not a valid number.");
+        sender.of(CommandSender.class).sendMessage(ChatColor.RED + given + " is not a valid number.");
     }
 }

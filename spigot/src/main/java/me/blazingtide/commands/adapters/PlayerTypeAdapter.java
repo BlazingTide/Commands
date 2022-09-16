@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PlayerTypeAdapter implements TypeAdapter<Player> {
+
     @Override
     public Player process(String label) {
         return Bukkit.getPlayer(label);
@@ -15,8 +16,7 @@ public class PlayerTypeAdapter implements TypeAdapter<Player> {
 
     @Override
     public void onException(Sender sender, String given, Exception exception) {
-        CommandSender commandSender = (CommandSender) sender.getSenderObject();
-
-        commandSender.sendMessage(ChatColor.RED + given + " is not a player or is offline.");
+        sender.of(CommandSender.class).sendMessage(ChatColor.RED + given + " is not a player or is offline.");
     }
+
 }

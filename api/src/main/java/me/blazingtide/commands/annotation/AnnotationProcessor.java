@@ -7,7 +7,7 @@ import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
 import me.blazingtide.commands.exception.sender.CommandSenderException;
-import me.blazingtide.commands.sender.dispatcher.Dispatcher;
+import me.blazingtide.commands.sender.Sender;
 import me.blazingtide.commands.service.CommandService;
 
 import java.lang.reflect.InvocationTargetException;
@@ -131,7 +131,20 @@ public class AnnotationProcessor {
     private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method) {
         return commandArguments -> {
             final Class<?> senderType = parameters[0].getType();
+
             Object sender = commandArguments.sender(senderType);
+
+            //Custom senders/dispatchers
+            if (Commands.getDispatcherService().getDispatcherProviders().containsKey(senderType)) {
+                final Optional<?> optional = Commands.getDispatcherService().getDispatcherProviders().get(senderType)
+                        .provide(Sender.of(sender));
+
+                if (optional.isPresent()) {
+                    sender = optional.get();
+                } else {
+                    throw new CommandSenderException("Dispatcher returned an empty optional.");
+                }
+            }
 
             final Object[] mappedParameters = new Object[parameters.length];
             mappedParameters[0] = sender;
@@ -164,18 +177,6 @@ public class AnnotationProcessor {
                 }
 
                 mappedParameters[parameters.length - 1] = builder.toString().trim();
-            }
-
-            //Custom senders/dispatchers
-            if (Commands.getDispatcherService().getDispatcherProviders().containsKey(sender.getClass())) {
-                final Optional<?> optional = Commands.getDispatcherService().getDispatcherProviders().get(sender.getClass())
-                        .provide(Dispatcher.of(sender));
-
-                if (optional.isPresent()) {
-                    sender = optional.get();
-                } else {
-                    throw new CommandSenderException("Dispatcher returned an empty optional.");
-                }
             }
 
             try {
