@@ -6,6 +6,7 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
+import me.blazingtide.commands.command.CommandImpl;
 import me.blazingtide.commands.service.CommandService;
 
 import java.lang.reflect.InvocationTargetException;
@@ -81,6 +82,8 @@ public class AnnotationProcessor {
         } else {
             final Command parent = traverse(split, 0, null);
 
+            parent.setAsync(annotation.async());
+
             //Remove duplicate subcommands if they have the same labels & description, created for hot reloading plugins during runtime
             parent.getSubCommands().removeIf(command1 -> new HashSet<>(command1.getLabels()).containsAll(command.getLabels()) && command1.getDescription().equals(command.getDescription()));
 
@@ -105,10 +108,16 @@ public class AnnotationProcessor {
             }
         }
 
-        final Command sub = Commands.begin()
-                .label(label[index])
-                .subcommand()
-                .create();
+        final Command sub = new CommandImpl(
+                commandArguments -> {
+                },
+                List.of(label[index]),
+                "",
+                "",
+                "",
+                false,
+                new ArrayList<>()
+        );
 
         //Remove duplicate subcommands if they have the same labels & description, created for hot reloading plugins during runtime
         parent.getSubCommands().removeIf(command1 -> new HashSet<>(command1.getLabels()).containsAll(sub.getLabels()) && command1.getDescription().equals(sub.getDescription()));
@@ -124,9 +133,16 @@ public class AnnotationProcessor {
             return command;
         }
 
-        return Commands.begin()
-                .label(labelSplit[0])
-                .create();
+        return new CommandImpl(
+                commandArguments -> {
+                },
+                List.of(labelSplit[0]),
+                "",
+                "",
+                "",
+                false,
+                new ArrayList<>()
+        );
     }
 
     private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {

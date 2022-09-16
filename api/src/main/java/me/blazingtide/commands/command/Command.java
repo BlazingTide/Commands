@@ -65,10 +65,8 @@ public interface Command extends PermissionHolder {
     List<Command> getSubCommands();
 
     /**
-     * Gets the parameters of the method this command is using.
-     *
-     * @return the parameters
+     * Sets the command to be async
+     * @param async if the command is async
      */
-    List<Class<?>> getParameters();
-
+    void setAsync(boolean async);
 }

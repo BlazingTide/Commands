@@ -2,11 +2,10 @@ package me.blazingtide.commands.command;
 
 import me.blazingtide.commands.argument.CommandArguments;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class AnnotationCommand implements Command {
+public class CommandImpl implements Command {
 
     private final Consumer<CommandArguments> executor;
     private final List<String> labels;
@@ -16,10 +15,7 @@ public class AnnotationCommand implements Command {
     private boolean async;
     private final List<Command> subCommands;
 
-    private final Method method;
-    private final List<Class<?>> parameters;
-
-    public AnnotationCommand(Consumer<CommandArguments> executor, List<String> labels, String usage, String description, String permission, boolean async, List<Command> subCommands, Method method, List<Class<?>> parameters) {
+    public CommandImpl(Consumer<CommandArguments> executor, List<String> labels, String usage, String description, String permission, boolean async, List<Command> subCommands) {
         this.executor = executor;
         this.labels = labels;
         this.usage = usage;
@@ -27,8 +23,6 @@ public class AnnotationCommand implements Command {
         this.permission = permission;
         this.async = async;
         this.subCommands = subCommands;
-        this.method = method;
-        this.parameters = parameters;
     }
 
     @Override
@@ -70,14 +64,5 @@ public class AnnotationCommand implements Command {
     public void setAsync(boolean async) {
         this.async = async;
     }
-
-    public List<Class<?>> getParameters() {
-        return parameters;
-    }
-
-    public Method getMethod() {
-        return method;
-    }
-
 
 }
