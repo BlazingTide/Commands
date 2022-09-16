@@ -10,6 +10,7 @@ public class WorldDispatcherProvider implements DispatcherProvider<WorldDispatch
 
     @Override
     public Optional<WorldDispatcher> provide(Sender sender) {
+        System.out.println(sender.getSenderObject().getClass().getName());
         var player = sender.of(Player.class);
 
         if (player == null) return Optional.empty();

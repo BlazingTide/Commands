@@ -3,6 +3,9 @@ package me.blazingtide.commands;
 import me.blazingtide.commands.adapters.*;
 import me.blazingtide.commands.agent.SpigotCommandAgent;
 import me.blazingtide.commands.repository.CommandRepository;
+import me.blazingtide.commands.testing.DispatcherTest;
+import me.blazingtide.commands.testing.WorldDispatcher;
+import me.blazingtide.commands.testing.WorldDispatcherProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +22,8 @@ public class CommandsPlugin extends JavaPlugin {
 
         registerDefaults();
         processConfig();
+        Commands.registerDispatcher(WorldDispatcher.class, new WorldDispatcherProvider());
+        Commands.registerAnnotations(new DispatcherTest());
     }
 
     private void processConfig() {

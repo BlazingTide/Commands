@@ -55,17 +55,7 @@ public class AnnotationProcessor {
         final String[] split = label.split(" ");
         boolean isSubCommand = split.length > 1;
 
-        final Command command = new AnnotationCommand(
-                createExecutor(parameters, method),
-                List.of(split[split.length - 1]),
-                annotation.usage(),
-                annotation.description(),
-                annotation.permission(),
-                annotation.async(),
-                new ArrayList<>(),
-                method,
-                params
-        );
+        final Command command = new AnnotationCommand(createExecutor(parameters, method, object), List.of(split[split.length - 1]), annotation.usage(), annotation.description(), annotation.permission(), annotation.async(), new ArrayList<>(), method, params);
 
         //Determine if this is a sub command
         if (!isSubCommand) {
@@ -104,10 +94,7 @@ public class AnnotationProcessor {
             }
         }
 
-        final Command sub = Commands.begin()
-                .label(label[index])
-                .subcommand()
-                .create();
+        final Command sub = Commands.begin().label(label[index]).subcommand().create();
 
         //Remove duplicate subcommands if they have the same labels & description, created for hot reloading plugins during runtime
         parent.getSubCommands().removeIf(command1 -> new HashSet<>(command1.getLabels()).containsAll(sub.getLabels()) && command1.getDescription().equals(sub.getDescription()));
@@ -123,25 +110,22 @@ public class AnnotationProcessor {
             return command;
         }
 
-        return Commands.begin()
-                .label(labelSplit[0])
-                .create();
+        return Commands.begin().label(labelSplit[0]).create();
     }
 
-    private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method) {
+    private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {
         return commandArguments -> {
             final Class<?> senderType = parameters[0].getType();
-
             Object sender = commandArguments.sender(senderType);
 
             //Custom senders/dispatchers
             if (Commands.getDispatcherService().getDispatcherProviders().containsKey(senderType)) {
-                final Optional<?> optional = Commands.getDispatcherService().getDispatcherProviders().get(senderType)
-                        .provide(Sender.of(sender));
+                final Optional<?> optional = Commands.getDispatcherService().getDispatcherProviders().get(senderType).provide(Sender.of(sender));
 
                 if (optional.isPresent()) {
                     sender = optional.get();
                 } else {
+                    System.out.println("Not present");
                     throw new CommandSenderException("Dispatcher returned an empty optional.");
                 }
             }
@@ -180,7 +164,7 @@ public class AnnotationProcessor {
             }
 
             try {
-                method.invoke(sender, mappedParameters);
+                method.invoke(object, mappedParameters);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
