@@ -1,19 +1,21 @@
 package me.blazingtide.commands.sender.dispatcher;
 
+import me.blazingtide.commands.sender.Sender;
+
 /**
  * Provides a dispatcher for the sender.
  */
 public interface Dispatcher {
 
     static Dispatcher of(Object object) {
-        return () -> object;
+        return () -> Sender.of(object);
     }
 
     /**
-     * The raw object of the dispatcher.
+     * The sender.
      *
-     * @return the raw object
+     * @return the sender
      */
-    Object value();
+    Sender value();
 
 }

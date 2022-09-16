@@ -23,8 +23,23 @@ public interface Sender {
      */
     Object getSenderObject();
 
+    /**
+     * Smart casts the sender object to the specified class.
+     * If the sender object is not an instance of the specified class
+     * the method will return null.
+     *
+     * @param clazz the class to cast to
+     * @param <T>   the type of the class
+     * @return the casted object
+     */
     default <T> T of(Class<T> clazz) {
-        return clazz.cast(getSenderObject());
+        final Object senderObject = getSenderObject();
+
+        if (!senderObject.getClass().isInstance(clazz)) {
+            return null;
+        }
+
+        return clazz.cast(senderObject);
     }
 
     /**

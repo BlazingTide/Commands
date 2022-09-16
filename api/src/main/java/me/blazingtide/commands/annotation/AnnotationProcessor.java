@@ -6,6 +6,7 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
+import me.blazingtide.commands.exception.sender.CommandSenderException;
 import me.blazingtide.commands.sender.dispatcher.Dispatcher;
 import me.blazingtide.commands.service.CommandService;
 
@@ -172,6 +173,8 @@ public class AnnotationProcessor {
 
                 if (optional.isPresent()) {
                     sender = optional.get();
+                } else {
+                    throw new CommandSenderException("Dispatcher returned an empty optional.");
                 }
             }
 
