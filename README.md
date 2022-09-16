@@ -17,6 +17,7 @@
 * Async & Sync at the command declaration level
 * String Concatenation for last parameter
 * Spigot Support
+* Custom Dispatchers/Senders
 * Velocity Support
 * & more!
 
