@@ -73,4 +73,6 @@ public class AnnotationCommand implements Command {
     public Method getMethod() {
         return method;
     }
+
+
 }

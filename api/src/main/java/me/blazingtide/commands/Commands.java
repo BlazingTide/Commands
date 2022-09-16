@@ -3,8 +3,6 @@ package me.blazingtide.commands;
 import me.blazingtide.commands.adapter.TypeAdapter;
 import me.blazingtide.commands.annotation.AnnotationProcessor;
 import me.blazingtide.commands.command.Command;
-import me.blazingtide.commands.command.builder.CommandBuilder;
-import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.service.CommandService;
 import me.blazingtide.commands.service.CommandServiceBuilder;
 import me.blazingtide.commands.service.CommandServiceBuilderImpl;
@@ -15,17 +13,22 @@ public class Commands {
 
     private static CommandService commandService;
 
-    public static List<Command> registerAnnotations(Object object) {
+    public static List<Command> registerCommands(Object object) {
         return AnnotationProcessor.createCommands(object, null);
     }
 
-    public static List<Command> registerAnnotations(Object object, String... parents) {
+    public static List<Command> registerCommands(Object object, String... parents) {
         return AnnotationProcessor.createCommands(object, parents);
     }
 
     @Deprecated
-    public static CommandBuilder begin() {
-        return new CommandBuilderImpl();
+    public static List<Command> registerAnnotations(Object object) {
+        return AnnotationProcessor.createCommands(object, null);
+    }
+
+    @Deprecated
+    public static List<Command> registerAnnotations(Object object, String... parents) {
+        return AnnotationProcessor.createCommands(object, parents);
     }
 
     public static CommandServiceBuilder newInstance() {

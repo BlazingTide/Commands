@@ -1,12 +1,9 @@
 package me.blazingtide.commands.command;
 
 import me.blazingtide.commands.argument.CommandArguments;
-import me.blazingtide.commands.command.builder.CommandBuilder;
-import me.blazingtide.commands.command.builder.CommandBuilderImpl;
 import me.blazingtide.commands.permission.PermissionHolder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -16,11 +13,6 @@ import java.util.function.Consumer;
  * All commands are immutable. They cannot be changed after the command is created
  * and registered.
  * </p>
- *
- * <p>
- * Commands cannot have multiple labels however, to create a command
- * with the same executor but different labels, you first create a command
- * object and then clone {@link #clone()} the object and set a new label.
  * </p>
  */
 public interface Command extends PermissionHolder {
@@ -73,23 +65,10 @@ public interface Command extends PermissionHolder {
     List<Command> getSubCommands();
 
     /**
-     * Clones the command and returns a new command builder
+     * Gets the parameters of the method this command is using.
      *
-     * @return the command builder
+     * @return the parameters
      */
-    default CommandBuilder cloneCommand() {
-        final CommandBuilder builder = new CommandBuilderImpl()
-                .usage(this.getUsage())
-                .permission(this.getPermission())
-                .execute(this.getExecutor());
-
-        this.getLabels().forEach(builder::label);
-
-        if (isAsync()) {
-            builder.async();
-        }
-
-        return builder;
-    }
+    List<Class<?>> getParameters();
 
 }
