@@ -23,6 +23,10 @@ public interface Sender {
      */
     Object getSenderObject();
 
+    default <T> T of(Class<T> clazz) {
+        return clazz.cast(getSenderObject());
+    }
+
     /**
      * Returns the sender object casted as the type supplied.
      *

@@ -6,15 +6,13 @@ import me.blazingtide.commands.argument.CommandArguments;
 import me.blazingtide.commands.argument.cursor.NonNullArgumentCursor;
 import me.blazingtide.commands.command.AnnotationCommand;
 import me.blazingtide.commands.command.Command;
+import me.blazingtide.commands.sender.dispatcher.Dispatcher;
 import me.blazingtide.commands.service.CommandService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -57,7 +55,7 @@ public class AnnotationProcessor {
         boolean isSubCommand = split.length > 1;
 
         final Command command = new AnnotationCommand(
-                createExecutor(parameters, method, object),
+                createExecutor(parameters, method),
                 List.of(split[split.length - 1]),
                 annotation.usage(),
                 annotation.description(),
@@ -129,10 +127,10 @@ public class AnnotationProcessor {
                 .create();
     }
 
-    private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method, Object object) {
+    private static Consumer<CommandArguments> createExecutor(Parameter[] parameters, Method method) {
         return commandArguments -> {
             final Class<?> senderType = parameters[0].getType();
-            final Object sender = commandArguments.sender(senderType);
+            Object sender = commandArguments.sender(senderType);
 
             final Object[] mappedParameters = new Object[parameters.length];
             mappedParameters[0] = sender;
@@ -167,8 +165,18 @@ public class AnnotationProcessor {
                 mappedParameters[parameters.length - 1] = builder.toString().trim();
             }
 
+            //Custom senders/dispatchers
+            if (Commands.getDispatcherService().getDispatcherProviders().containsKey(sender.getClass())) {
+                final Optional<?> optional = Commands.getDispatcherService().getDispatcherProviders().get(sender.getClass())
+                        .provide(Dispatcher.of(sender));
+
+                if (optional.isPresent()) {
+                    sender = optional.get();
+                }
+            }
+
             try {
-                method.invoke(object, mappedParameters);
+                method.invoke(sender, mappedParameters);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
