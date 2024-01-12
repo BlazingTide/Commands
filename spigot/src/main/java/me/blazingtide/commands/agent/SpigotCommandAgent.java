@@ -10,7 +10,7 @@ import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundExc
 import me.blazingtide.commands.exception.sender.CommandSenderException;
 import me.blazingtide.commands.sender.Sender;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
