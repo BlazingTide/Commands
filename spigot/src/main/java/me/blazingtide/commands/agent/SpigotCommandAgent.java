@@ -10,7 +10,7 @@ import me.blazingtide.commands.exception.argument.CommandArgumentTypeNotFoundExc
 import me.blazingtide.commands.exception.sender.CommandSenderException;
 import me.blazingtide.commands.sender.Sender;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -86,7 +86,7 @@ public class SpigotCommandAgent implements CommandInjectionAgent {
     public void sendHelp(Command command, Object senderObject, String label) {
         final CommandSender sender = (CommandSender) senderObject;
 
-        final ChatColor PRIMARY_COLOR = ChatColor.of("#099e0c");
+        final ChatColor PRIMARY_COLOR = ChatColor.of("#4ac24c");
         final ChatColor SECONDARY_COLOR = ChatColor.of("#4ac24c");
 
         sender.sendMessage(PRIMARY_COLOR.toString() + ChatColor.BOLD + ChatColor.STRIKETHROUGH + "-----------------------------");

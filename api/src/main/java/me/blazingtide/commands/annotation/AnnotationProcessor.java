@@ -125,7 +125,6 @@ public class AnnotationProcessor {
                 if (optional.isPresent()) {
                     sender = optional.get();
                 } else {
-                    System.out.println("Not present");
                     throw new CommandSenderException("Dispatcher returned an empty optional.");
                 }
             }
